@@ -13,6 +13,7 @@ namespace Game.Core
         [Header("SFX 클립")]
         [SerializeField] private AudioClip _balloonPop;
         [SerializeField] private AudioClip _balloonPick;
+        [SerializeField] private AudioClip _balloonHit;
 
         // ========== 내부 상태 변수 ==========
         private AudioSource _audioSource;
@@ -42,6 +43,15 @@ namespace Game.Core
         {
             if (_balloonPick != null)
                 _audioSource.PlayOneShot(_balloonPick);
+        }
+
+        /// <summary>
+        /// 화살표가 풍선에 닿는 사운드 재생
+        /// </summary>
+        public void PlayBalloonHit()
+        {
+            if (_balloonHit != null)
+                _audioSource.PlayOneShot(_balloonHit);
         }
     }
 }

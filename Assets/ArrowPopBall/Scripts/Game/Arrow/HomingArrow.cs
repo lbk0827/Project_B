@@ -358,6 +358,7 @@ namespace Game.Arrow
 
             // 충돌 파티클
             SpawnHitParticle();
+            global::Game.Core.SFXManager.Instance?.PlayBalloonHit();
 
             if (_usePositionTarget)
             {

@@ -1427,6 +1427,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Game.Core.SFXManager
   _balloonPop: {fileID: 8300000, guid: 29c115e89116063429865fd3915d16e5, type: 3}
   _balloonPick: {fileID: 8300000, guid: 6696d05514626924c9e96856cf61f1e2, type: 3}
+  _balloonHit: {fileID: 8300000, guid: 5dff124cb6482f54591d78c10c2a2b9a, type: 3}
 --- !u!4 &1339271754
 Transform:
   m_ObjectHideFlags: 0

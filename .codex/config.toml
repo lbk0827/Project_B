@@ -1,0 +1,6 @@
+[mcp_servers.mcp-unity]
+command = "node"
+args = ["Packages/com.gamelovers.mcp-unity/Server~/build/index.js"]
+startup_timeout_sec = 20
+tool_timeout_sec = 120
+default_tools_approval_mode = "prompt"

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
@@ -64,11 +64,10 @@ namespace McpUnity.Resources
 
             GameObject gameObject = null;
 
-            // Try to parse as an instance ID first
-            if (int.TryParse(idOrName, out int instanceId))
+            // Try to parse as an entity ID first.
+            if (ulong.TryParse(idOrName, out ulong entityId))
             {
-                // Unity Instance IDs are typically negative, but we'll accept any integer
-                UnityEngine.Object unityObject = EditorUtility.InstanceIDToObject(instanceId);
+                UnityEngine.Object unityObject = EditorUtility.EntityIdToObject(EntityId.FromULong(entityId));
                 gameObject = unityObject as GameObject;
             }
             else
@@ -101,7 +100,7 @@ namespace McpUnity.Resources
                 ["success"] = true,
                 ["message"] = $"Retrieved GameObject data for '{gameObject.name}'",
                 ["gameObject"] = gameObjectData,
-                ["instanceId"] = gameObject.GetInstanceID()
+                ["instanceId"] = EntityId.ToULong(gameObject.GetEntityId()).ToString()
             };
         }
 
@@ -153,7 +152,7 @@ namespace McpUnity.Resources
                 ["tag"] = gameObject.tag,
                 ["layer"] = gameObject.layer,
                 ["layerName"] = LayerMask.LayerToName(gameObject.layer),
-                ["instanceId"] = gameObject.GetInstanceID()
+                ["instanceId"] = EntityId.ToULong(gameObject.GetEntityId()).ToString()
             };
 
             if (includeComponents)
@@ -602,3 +601,5 @@ namespace McpUnity.Resources
         }
     }
 }
+
+

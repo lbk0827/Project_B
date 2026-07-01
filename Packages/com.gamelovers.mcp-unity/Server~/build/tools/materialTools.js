@@ -77,7 +77,7 @@ async function createMaterialHandler(mcpUnity, params) {
 const assignMaterialToolName = 'assign_material';
 const assignMaterialToolDescription = 'Assigns a material to a GameObject\'s Renderer component at a specific material slot';
 const assignMaterialParamsSchema = z.object({
-    instanceId: z.number().optional().describe('The instance ID of the GameObject'),
+    instanceId: z.union([z.number(), z.string()]).optional().describe('The instance ID of the GameObject'),
     objectPath: z.string().optional().describe('The path of the GameObject in the hierarchy (alternative to instanceId)'),
     materialPath: z.string().describe('The asset path to the material (e.g., "Assets/Materials/MyMaterial.mat")'),
     slot: z.number().int().min(0).optional().default(0).describe('The material slot index (default: 0)')

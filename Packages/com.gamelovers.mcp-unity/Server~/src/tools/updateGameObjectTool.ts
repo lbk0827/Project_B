@@ -1,4 +1,4 @@
-import * as z from 'zod';
+﻿import * as z from 'zod';
 import { McpUnity } from '../unity/mcpUnity.js';
 import { Logger } from '../utils/logger.js';
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
@@ -9,7 +9,7 @@ import { CallToolResult } from '@modelcontextprotocol/sdk/types.js';
 const toolName = 'update_gameobject';
 const toolDescription = 'Updates properties of a GameObject in the Unity scene by its instance ID or path. If the GameObject does not exist at the specified path, it will be created.';
 const paramsSchema = z.object({
-  instanceId: z.number().optional().describe('The instance ID of the GameObject to update'),
+  instanceId: z.union([z.number(), z.string()]).optional().describe('The instance ID of the GameObject to update'),
   objectPath: z.string().optional().describe('The path of the GameObject in the hierarchy to update (alternative to instanceId)'),
   gameObjectData: z.object({
     name: z.string().optional().describe('New name for the GameObject'),
@@ -96,3 +96,4 @@ async function toolHandler(mcpUnity: McpUnity, params: any): Promise<CallToolRes
         }]
       };
 }
+

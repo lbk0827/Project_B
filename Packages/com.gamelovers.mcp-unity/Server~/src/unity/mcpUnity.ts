@@ -64,7 +64,7 @@ export interface McpUnityConfig {
 export class McpUnity {
   private logger: Logger;
   private port: number = 8090;
-  private host: string = 'localhost';
+  private host: string = '127.0.0.1';
   private requestTimeout = 10000;
 
   private connection: UnityConnection | null = null;
@@ -178,9 +178,9 @@ export class McpUnity {
     this.port = configPort ? parseInt(configPort, 10) : 8090;
     this.logger.info(`Using port: ${this.port} for Unity WebSocket connection`);
 
-    // Check environment variable first, then config file, then default to localhost
+    // Check environment variable first, then config file, then default to loopback.
     const configHost = process.env.UNITY_HOST || config.Host;
-    this.host = configHost || 'localhost';
+    this.host = configHost || '127.0.0.1';
 
     // Initialize timeout from environment variable (in seconds; it is the same as Cline) or use default (10 seconds)
     const configTimeout = config.RequestTimeoutSeconds;

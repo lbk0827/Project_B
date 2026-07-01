@@ -13,7 +13,7 @@ const paramsSchema = z.object({
         z: z.number().default(0).describe('Z position in the scene')
     }).optional().describe('Position in the scene (defaults to Vector3.zero)'),
     parentPath: z.string().optional().describe('The path of the parent GameObject in the hierarchy'),
-    parentId: z.number().optional().describe('The instance ID of the parent GameObject')
+    parentId: z.union([z.number(), z.string()]).optional().describe('The instance ID of the parent GameObject')
 });
 /**
  * Creates and registers the AddAssetToScene tool with the MCP server

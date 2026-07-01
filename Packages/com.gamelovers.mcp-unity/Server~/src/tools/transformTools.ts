@@ -1,4 +1,4 @@
-import * as z from 'zod';
+﻿import * as z from 'zod';
 import { McpUnity } from '../unity/mcpUnity.js';
 import { Logger } from '../utils/logger.js';
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
@@ -22,7 +22,7 @@ function createVector3Schema() {
 const moveToolName = 'move_gameobject';
 const moveToolDescription = 'Moves a GameObject to a new position. Supports world/local space and absolute/relative positioning.';
 const moveParamsSchema = z.object({
-  instanceId: z.number().optional().describe('The instance ID of the GameObject to move'),
+  instanceId: z.union([z.number(), z.string()]).optional().describe('The instance ID of the GameObject to move'),
   objectPath: z.string().optional().describe('The path of the GameObject in the hierarchy (alternative to instanceId)'),
   position: createVector3Schema().describe('The target position'),
   space: z.enum(['world', 'local']).default('world').describe('Coordinate space: "world" or "local"'),
@@ -89,7 +89,7 @@ async function moveToolHandler(mcpUnity: McpUnity, params: z.infer<typeof movePa
 const rotateToolName = 'rotate_gameobject';
 const rotateToolDescription = 'Rotates a GameObject using Euler angles. Supports world/local space and absolute/relative rotation.';
 const rotateParamsSchema = z.object({
-  instanceId: z.number().optional().describe('The instance ID of the GameObject to rotate'),
+  instanceId: z.union([z.number(), z.string()]).optional().describe('The instance ID of the GameObject to rotate'),
   objectPath: z.string().optional().describe('The path of the GameObject in the hierarchy (alternative to instanceId)'),
   rotation: createVector3Schema().describe('The rotation in Euler angles (degrees)'),
   space: z.enum(['world', 'local']).default('world').describe('Coordinate space: "world" or "local"'),
@@ -156,7 +156,7 @@ async function rotateToolHandler(mcpUnity: McpUnity, params: z.infer<typeof rota
 const scaleToolName = 'scale_gameobject';
 const scaleToolDescription = 'Scales a GameObject. Supports absolute and relative (multiplicative) scaling.';
 const scaleParamsSchema = z.object({
-  instanceId: z.number().optional().describe('The instance ID of the GameObject to scale'),
+  instanceId: z.union([z.number(), z.string()]).optional().describe('The instance ID of the GameObject to scale'),
   objectPath: z.string().optional().describe('The path of the GameObject in the hierarchy (alternative to instanceId)'),
   scale: createVector3Schema().describe('The scale values'),
   relative: z.boolean().default(false).describe('If true, multiplies current scale instead of setting absolute scale')
@@ -222,7 +222,7 @@ const setTransformToolName = 'set_transform';
 const setTransformToolDescription = 'Sets a GameObject\'s transform (position, rotation, scale) in one operation. All transform properties are optional.';
 function createSetTransformParamsShape() {
   return {
-    instanceId: z.number().optional().describe('The instance ID of the GameObject'),
+    instanceId: z.union([z.number(), z.string()]).optional().describe('The instance ID of the GameObject'),
     objectPath: z.string().optional().describe('The path of the GameObject in the hierarchy (alternative to instanceId)'),
     position: createVector3Schema().optional().describe('The position to set'),
     rotation: createVector3Schema().optional().describe('The rotation in Euler angles (degrees)'),
@@ -308,7 +308,7 @@ async function setTransformToolHandler(mcpUnity: McpUnity, params: any): Promise
 /**
  * Validates that either instanceId or objectPath is provided
  */
-function validateGameObjectIdentifier(params: { instanceId?: number; objectPath?: string }) {
+function validateGameObjectIdentifier(params: { instanceId?: number | string; objectPath?: string }) {
   if ((params.instanceId === undefined || params.instanceId === null) &&
       (!params.objectPath || params.objectPath.trim() === '')) {
     throw new McpUnityError(
@@ -327,3 +327,4 @@ export function registerTransformTools(server: McpServer, mcpUnity: McpUnity, lo
   registerScaleGameObjectTool(server, mcpUnity, logger);
   registerSetTransformTool(server, mcpUnity, logger);
 }
+

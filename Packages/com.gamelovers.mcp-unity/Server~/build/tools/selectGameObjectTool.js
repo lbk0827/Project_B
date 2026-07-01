@@ -6,7 +6,7 @@ const toolDescription = 'Sets the selected GameObject in the Unity editor by pat
 const paramsSchema = z.object({
     objectPath: z.string().optional().describe('The path or name of the GameObject to select (e.g. "Main Camera")'),
     objectName: z.string().optional().describe('The name of the GameObject to select'),
-    instanceId: z.number().optional().describe('The instance ID of the GameObject to select')
+    instanceId: z.union([z.number(), z.string()]).optional().describe('The instance ID of the GameObject to select')
 });
 /**
  * Creates and registers the Select GameObject tool with the MCP server

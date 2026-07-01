@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using UnityEngine;
 using UnityEditor;
 using Newtonsoft.Json.Linq;
@@ -37,7 +37,7 @@ namespace McpUnity.Tools
             
             // Optional parent game object
             string parentPath = parameters["parentPath"]?.ToObject<string>();
-            int? parentId = parameters["parentId"]?.ToObject<int?>();
+            ulong? parentId = parameters["parentId"]?.ToObject<ulong?>();
             
             // Validate parameters - require either assetPath or guid
             if (string.IsNullOrEmpty(assetPath) && string.IsNullOrEmpty(guid))
@@ -100,7 +100,7 @@ namespace McpUnity.Tools
                     // Try to find parent by ID first
                     if (parentId.HasValue)
                     {
-                        parent = EditorUtility.InstanceIDToObject(parentId.Value) as GameObject;
+                        parent = EditorUtility.EntityIdToObject(EntityId.FromULong(parentId.Value)) as GameObject;
                     }
                     // Otherwise try to find by path
                     else if (!string.IsNullOrEmpty(parentPath))
@@ -138,9 +138,11 @@ namespace McpUnity.Tools
             {
                 ["success"] = true,
                 ["type"] = "text",
-                ["message"] = $"Successfully added asset '{asset.name}' with instance ID {instance.GetInstanceID()} to the scene",
-                ["instanceId"] = instance.GetInstanceID()
+                ["message"] = $"Successfully added asset '{asset.name}' with instance ID {EntityId.ToULong(instance.GetEntityId()).ToString()} to the scene",
+                ["instanceId"] = EntityId.ToULong(instance.GetEntityId()).ToString()
             };
         }
     }
 }
+
+

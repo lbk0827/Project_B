@@ -1,4 +1,4 @@
-import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
+﻿import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { McpUnity } from '../unity/mcpUnity.js';
 import { McpUnityError, ErrorType } from '../utils/errors.js';
 import * as z from 'zod';
@@ -18,7 +18,7 @@ const paramsSchema = z.object({
     z: z.number().default(0).describe('Z position in the scene')
   }).optional().describe('Position in the scene (defaults to Vector3.zero)'),
   parentPath: z.string().optional().describe('The path of the parent GameObject in the hierarchy'),
-  parentId: z.number().optional().describe('The instance ID of the parent GameObject')
+  parentId: z.union([z.number(), z.string()]).optional().describe('The instance ID of the parent GameObject')
 });
 
 /**
@@ -85,3 +85,4 @@ async function toolHandler(mcpUnity: McpUnity, params: any) {
     }]
   };
 }
+

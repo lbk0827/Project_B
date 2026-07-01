@@ -4,7 +4,7 @@ import { McpUnityError, ErrorType } from '../utils/errors.js';
 const toolName = 'update_component';
 const toolDescription = 'Updates component fields on a GameObject or adds it to the GameObject if it does not contain the component';
 const paramsSchema = z.object({
-    instanceId: z.number().optional().describe('The instance ID of the GameObject to update'),
+    instanceId: z.union([z.number(), z.string()]).optional().describe('The instance ID of the GameObject to update'),
     objectPath: z.string().optional().describe('The path of the GameObject in the hierarchy to update (alternative to instanceId)'),
     componentName: z.string().describe('The name of the component to update or add'),
     componentData: z.record(z.any()).optional().describe('An object containing the fields to update on the component (optional)')

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Threading.Tasks;
 using McpUnity.Unity;
 using McpUnity.Utils;
@@ -28,7 +28,7 @@ namespace McpUnity.Tools
             // Extract parameters
             string objectPath = parameters["objectPath"]?.ToObject<string>();
             string objectName = parameters["objectName"]?.ToObject<string>();
-            int? instanceId = parameters["instanceId"]?.ToObject<int?>();
+            ulong? instanceId = parameters["instanceId"]?.ToObject<ulong?>();
             GameObject selectedGameObject = null;
             
             // Validate parameters - require either objectPath or instanceId
@@ -43,7 +43,7 @@ namespace McpUnity.Tools
             // First try to find by instance ID if provided
             if (instanceId.HasValue)
             {
-                selectedGameObject = EditorUtility.InstanceIDToObject(instanceId.Value) as GameObject;
+                selectedGameObject = EditorUtility.EntityIdToObject(EntityId.FromULong(instanceId.Value)) as GameObject;
             }
             else if (!string.IsNullOrEmpty(objectPath))
             {
@@ -73,3 +73,5 @@ namespace McpUnity.Tools
         }
     }
 }
+
+

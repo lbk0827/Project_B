@@ -6,11 +6,11 @@ import { McpUnityError, ErrorType } from '../utils/errors.js';
 const duplicateToolName = 'duplicate_gameobject';
 const duplicateToolDescription = 'Duplicates a GameObject in the Unity scene. Can create multiple copies and optionally rename or reparent them.';
 const duplicateParamsSchema = z.object({
-    instanceId: z.number().optional().describe('The instance ID of the GameObject to duplicate'),
+    instanceId: z.union([z.number(), z.string()]).optional().describe('The instance ID of the GameObject to duplicate'),
     objectPath: z.string().optional().describe('The path of the GameObject in the hierarchy to duplicate (alternative to instanceId)'),
     newName: z.string().optional().describe('New name for the duplicated GameObject(s). If count > 1, numbers will be appended.'),
     newParent: z.string().optional().describe('Path to the new parent GameObject. If not specified, uses the same parent as the original.'),
-    newParentId: z.number().optional().describe('Instance ID of the new parent GameObject (alternative to newParent path).'),
+    newParentId: z.union([z.number(), z.string()]).optional().describe('Instance ID of the new parent GameObject (alternative to newParent path).'),
     count: z.number().int().min(1).max(100).default(1).describe('Number of copies to create. Default: 1, Max: 100'),
 });
 /**
@@ -64,7 +64,7 @@ async function duplicateHandler(mcpUnity, params) {
 const deleteToolName = 'delete_gameobject';
 const deleteToolDescription = 'Deletes a GameObject from the Unity scene. By default, also deletes all children.';
 const deleteParamsSchema = z.object({
-    instanceId: z.number().optional().describe('The instance ID of the GameObject to delete'),
+    instanceId: z.union([z.number(), z.string()]).optional().describe('The instance ID of the GameObject to delete'),
     objectPath: z.string().optional().describe('The path of the GameObject in the hierarchy to delete (alternative to instanceId)'),
     includeChildren: z.boolean().default(true).describe('If true (default), deletes all children. If false, children are moved to the deleted object\'s parent.'),
 });
@@ -116,10 +116,10 @@ async function deleteHandler(mcpUnity, params) {
 const reparentToolName = 'reparent_gameobject';
 const reparentToolDescription = 'Changes the parent of a GameObject. Can move to a new parent or to the root level (null parent).';
 const reparentParamsSchema = z.object({
-    instanceId: z.number().optional().describe('The instance ID of the GameObject to reparent'),
+    instanceId: z.union([z.number(), z.string()]).optional().describe('The instance ID of the GameObject to reparent'),
     objectPath: z.string().optional().describe('The path of the GameObject in the hierarchy to reparent (alternative to instanceId)'),
     newParent: z.string().nullable().optional().describe('Path to the new parent GameObject. Use null to move to root level.'),
-    newParentId: z.number().nullable().optional().describe('Instance ID of the new parent GameObject. Use null to move to root level.'),
+    newParentId: z.union([z.number(), z.string()]).nullable().optional().describe('Instance ID of the new parent GameObject. Use null to move to root level.'),
     worldPositionStays: z.boolean().default(true).describe('If true (default), the world position is preserved. If false, local position is reset to zero.'),
 });
 /**

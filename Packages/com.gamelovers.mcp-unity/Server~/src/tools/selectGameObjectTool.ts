@@ -1,4 +1,4 @@
-import * as z from 'zod';
+﻿import * as z from 'zod';
 import { Logger } from '../utils/logger.js';
 import { McpUnity } from '../unity/mcpUnity.js';
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
@@ -11,7 +11,7 @@ const toolDescription = 'Sets the selected GameObject in the Unity editor by pat
 const paramsSchema = z.object({
   objectPath: z.string().optional().describe('The path or name of the GameObject to select (e.g. "Main Camera")'),
   objectName: z.string().optional().describe('The name of the GameObject to select'),
-  instanceId: z.number().optional().describe('The instance ID of the GameObject to select')
+  instanceId: z.union([z.number(), z.string()]).optional().describe('The instance ID of the GameObject to select')
 });
 
 /**
@@ -80,3 +80,4 @@ async function toolHandler(mcpUnity: McpUnity, params: any): Promise<CallToolRes
     }]
   };
 }
+

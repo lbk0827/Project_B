@@ -1,0 +1,62 @@
+[
+	{
+		"Level": 1,
+		"StageIdx": 1,
+		"Difficulty": 1,
+		"Lives": 3
+	},
+	{
+		"Level": 2,
+		"StageIdx": 2,
+		"Difficulty": 1,
+		"Lives": 5
+	},
+	{
+		"Level": 3,
+		"StageIdx": 3,
+		"Difficulty": 1,
+		"Lives": 3
+	},
+	{
+		"Level": 4,
+		"StageIdx": 4,
+		"Difficulty": 1,
+		"Lives": 3
+	},
+	{
+		"Level": 5,
+		"StageIdx": 5,
+		"Difficulty": 1,
+		"Lives": 3
+	},
+	{
+		"Level": 6,
+		"StageIdx": 6,
+		"Difficulty": 1,
+		"Lives": 5
+	},
+	{
+		"Level": 7,
+		"StageIdx": 7,
+		"Difficulty": 1,
+		"Lives": 3
+	},
+	{
+		"Level": 8,
+		"StageIdx": 8,
+		"Difficulty": 1,
+		"Lives": 3
+	},
+	{
+		"Level": 9,
+		"StageIdx": 9,
+		"Difficulty": 1,
+		"Lives": 3
+	},
+	{
+		"Level": 10,
+		"StageIdx": 10,
+		"Difficulty": 1,
+		"Lives": 5
+	}
+]

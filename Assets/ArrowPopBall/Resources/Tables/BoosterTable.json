@@ -1,0 +1,17 @@
+[
+  {
+    "BoosterId": "Hint",
+    "Price": 100,
+    "InitialCount": 3
+  },
+  {
+    "BoosterId": "Eraser",
+    "Price": 200,
+    "InitialCount": 3
+  },
+  {
+    "BoosterId": "ArrowDash",
+    "Price": 150,
+    "InitialCount": 10
+  }
+]

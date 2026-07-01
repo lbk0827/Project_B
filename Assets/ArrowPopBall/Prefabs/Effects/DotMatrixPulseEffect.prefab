@@ -1,0 +1,65 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &7024862969292840282
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7276566275574431547}
+  - component: {fileID: 241204230772389060}
+  m_Layer: 0
+  m_Name: DotMatrixPulseEffect
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7276566275574431547
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7024862969292840282}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &241204230772389060
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7024862969292840282}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8202e032f892ab4091592adc35b1ca6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _gridSystem: {fileID: 0}
+  _scaleUpTime: 0.15
+  _scaleDownTime: 0.1
+  _maxScale: 1.5
+  _scaleUpEase: 27
+  _scaleDownEase: 5
+  _colorTransitionTime: 0.5
+  _colorEase: 6
+  _delayPerDistance: 0.04
+  _useEuclideanDistance: 0
+  _pulseColors:
+  - {r: 1, g: 0.84, b: 0, a: 1}
+  - {r: 1, g: 0.42, b: 0.42, a: 1}
+  - {r: 0.31, g: 0.8, b: 0.77, a: 1}
+  - {r: 0.66, g: 0.33, b: 0.97, a: 1}
+  - {r: 0.52, g: 0.8, b: 0.09, a: 1}
+  - {r: 0.93, g: 0.29, b: 0.6, a: 1}
+  - {r: 0.98, g: 0.45, b: 0.09, a: 1}
+  - {r: 0.22, g: 0.74, b: 0.97, a: 1}

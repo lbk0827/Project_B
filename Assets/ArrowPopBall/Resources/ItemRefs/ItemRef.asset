@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 014be459533e94446b9e30fb0c933e40, type: 3}
+  m_Name: ItemRef
+  m_EditorClassIdentifier: Assembly-CSharp::Game.Data.ItemRefSO
+  _items:
+  - Key: Coin
+    DisplayName: Coin
+    Icon: {fileID: 0}
+  - Key: Heart
+    DisplayName: Heart
+    Icon: {fileID: 0}
+  - Key: Hint
+    DisplayName: Hint
+    Icon: {fileID: 0}
+  - Key: Eraser
+    DisplayName: Eraser
+    Icon: {fileID: 0}
+  - Key: ArrowDash
+    DisplayName: ArrowDash
+    Icon: {fileID: 0}

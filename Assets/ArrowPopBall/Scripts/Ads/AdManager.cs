@@ -28,6 +28,7 @@ namespace Game.Ads
         private AdBannerPlacement _currentBannerPlacement;
         private AdSettingsSO _settings;
         private AdsSdkSettingsSO _sdkSettings;
+        private AppLovinMaxBridge _maxBridge;
 
         public AdSettingsSO Settings => _settings;
         public AdsSdkSettingsSO SdkSettings => _sdkSettings;
@@ -37,6 +38,8 @@ namespace Game.Ads
         {
             LoadSettings();
             LoadSdkSettings();
+            _maxBridge = new AppLovinMaxBridge();
+            _maxBridge.Initialize(_sdkSettings);
             _clearCountSinceInterstitial = 0;
             _lastInterstitialTime = float.MinValue;
             Debug.Log($"[AdManager] Thin ad manager initialized settings='{_settings.name}' sdkSettings='{_sdkSettings.name}'");
@@ -63,6 +66,11 @@ namespace Game.Ads
             _bannerVisible = true;
             _currentBannerPlacement = placement;
             Debug.Log($"[AdManager] ShowBanner: {placement}, unitId='{GetBannerUnitId()}'");
+
+            if (_maxBridge != null && _maxBridge.IsInitialized)
+            {
+                _maxBridge.ShowBanner(GetBannerUnitId());
+            }
         }
 
         public void HideBanner()
@@ -71,6 +79,10 @@ namespace Game.Ads
                 return;
 
             _bannerVisible = false;
+            if (_maxBridge != null && _maxBridge.IsInitialized)
+            {
+                _maxBridge.HideBanner(GetBannerUnitId());
+            }
             Debug.Log($"[AdManager] HideBanner: {_currentBannerPlacement}");
         }
 
@@ -106,12 +118,23 @@ namespace Game.Ads
             Debug.Log($"[AdManager] TryShowInterstitial: {trigger}, level={currentLevel}, unitId='{GetInterstitialUnitId()}'");
 
 #if UNITY_EDITOR
-            if (_settings.SimulateInterstitialInEditor)
+            if (_settings.SimulateInterstitialInEditor && (_maxBridge == null || !_maxBridge.IsInitialized))
             {
                 StartCoroutine(SimulateInterstitialCoroutine(onComplete));
                 return;
             }
 #endif
+
+            if (_maxBridge != null && _maxBridge.IsInitialized)
+            {
+                _lastInterstitialTime = Time.realtimeSinceStartup;
+                _clearCountSinceInterstitial = 0;
+                _maxBridge.ShowInterstitial(GetInterstitialUnitId(), trigger.ToString(), success =>
+                {
+                    onComplete?.Invoke();
+                });
+                return;
+            }
 
             // TODO: Replace with actual network SDK show call.
             _lastInterstitialTime = Time.realtimeSinceStartup;
@@ -124,9 +147,18 @@ namespace Game.Ads
             Debug.Log($"[AdManager] ShowRewarded: {trigger}, unitId='{GetRewardedUnitId()}'");
 
 #if UNITY_EDITOR
-            StartCoroutine(SimulateRewardedCoroutine(onComplete));
-            return;
+            if (_maxBridge == null || !_maxBridge.IsInitialized)
+            {
+                StartCoroutine(SimulateRewardedCoroutine(onComplete));
+                return;
+            }
 #endif
+
+            if (_maxBridge != null && _maxBridge.IsInitialized)
+            {
+                _maxBridge.ShowRewarded(GetRewardedUnitId(), trigger.ToString(), onComplete);
+                return;
+            }
 
             // TODO: Replace with actual network SDK show call.
             onComplete?.Invoke(false);

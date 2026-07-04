@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Game.Ads;
 using Game.Settings;
 using UnityEditor;
+using UnityEditor.Build;
 using UnityEngine;
 
 namespace Game.Editor
@@ -13,6 +14,7 @@ namespace Game.Editor
         private const string AdsSdkSettingsPath = "Assets/ArrowPopBall/Resources/Ads/AdsSdkSettings.asset";
         private const string DevAdsProfilePath = "Assets/ArrowPopBall/Settings/AdsSdkProfiles/Dev.asset";
         private const string LiveAdsProfilePath = "Assets/ArrowPopBall/Settings/AdsSdkProfiles/Live.asset";
+        private const string AppLovinSettingsPath = "Assets/MaxSdk/Resources/AppLovinSettings.asset";
 
         [MenuItem("Tools/Arrow Pop/Build Profiles/Apply Dev")]
         private static void ApplyDevProfile()
@@ -56,6 +58,19 @@ namespace Game.Editor
             PingAsset<AdsSdkSettingsSO>(LiveAdsProfilePath);
         }
 
+        [MenuItem("Tools/Arrow Pop/Ads/Sync Runtime Settings To AppLovin Asset")]
+        private static void SyncRuntimeSettingsToAppLovinAsset()
+        {
+            var runtimeAdsSettings = AssetDatabase.LoadAssetAtPath<AdsSdkSettingsSO>(AdsSdkSettingsPath);
+            if (runtimeAdsSettings == null)
+            {
+                Debug.LogError($"[BuildProfileMenu] Runtime ads settings not found: {AdsSdkSettingsPath}");
+                return;
+            }
+
+            SyncToAppLovinAsset(runtimeAdsSettings);
+        }
+
         [MenuItem("Tools/Arrow Pop/Validate/Profiles And Ads")]
         private static void ValidateProfilesAndAds()
         {
@@ -84,13 +99,13 @@ namespace Game.Editor
 
             if (!string.IsNullOrWhiteSpace(profile.AndroidApplicationIdentifier))
             {
-                PlayerSettings.SetApplicationIdentifier(BuildTargetGroup.Android, profile.AndroidApplicationIdentifier);
+                PlayerSettings.SetApplicationIdentifier(NamedBuildTarget.Android, profile.AndroidApplicationIdentifier);
                 changes.Add($"androidId='{profile.AndroidApplicationIdentifier}'");
             }
 
             if (!string.IsNullOrWhiteSpace(profile.IosApplicationIdentifier))
             {
-                PlayerSettings.SetApplicationIdentifier(BuildTargetGroup.iOS, profile.IosApplicationIdentifier);
+                PlayerSettings.SetApplicationIdentifier(NamedBuildTarget.iOS, profile.IosApplicationIdentifier);
                 changes.Add($"iosId='{profile.IosApplicationIdentifier}'");
             }
 
@@ -113,6 +128,8 @@ namespace Game.Editor
                     EditorUtility.CopySerialized(profile.AdsSdkSettingsProfile, runtimeAdsSettings);
                     EditorUtility.SetDirty(runtimeAdsSettings);
                     changes.Add($"adsSdkProfile='{profile.AdsSdkSettingsProfile.name}'");
+                    if (SyncToAppLovinAsset(runtimeAdsSettings))
+                        changes.Add("appLovinSettingsSynced");
                 }
             }
 
@@ -173,6 +190,7 @@ namespace Game.Editor
             }
 
             ValidateAdsSdkSettings(settings, "runtime");
+            ValidateAppLovinSettingsAssetExists();
         }
 
         private static void ValidateAdsSdkSettings(AdsSdkSettingsSO settings, string label)
@@ -200,6 +218,43 @@ namespace Game.Editor
             }
 
             Debug.LogWarning($"[BuildProfileMenu] Ads SDK settings '{settings.name}' for {label} are missing: {string.Join(", ", issues)}");
+        }
+
+        private static void ValidateAppLovinSettingsAssetExists()
+        {
+            if (AssetDatabase.LoadMainAssetAtPath(AppLovinSettingsPath) == null)
+            {
+                Debug.LogWarning($"[BuildProfileMenu] AppLovin settings asset not found: {AppLovinSettingsPath}. MAX package is probably not installed yet.");
+            }
+        }
+
+        private static bool SyncToAppLovinAsset(AdsSdkSettingsSO settings)
+        {
+            var appLovinSettingsAsset = AssetDatabase.LoadMainAssetAtPath(AppLovinSettingsPath);
+            if (appLovinSettingsAsset == null)
+            {
+                Debug.LogWarning($"[BuildProfileMenu] AppLovin settings asset not found: {AppLovinSettingsPath}");
+                return false;
+            }
+
+            var serializedObject = new SerializedObject(appLovinSettingsAsset);
+            SetStringIfPropertyExists(serializedObject, "sdkKey", settings.AppLovinSdkKey);
+            SetStringIfPropertyExists(serializedObject, "adMobAndroidAppId", settings.AdMobAndroidAppId);
+            SetStringIfPropertyExists(serializedObject, "adMobIosAppId", settings.AdMobIosAppId);
+            serializedObject.ApplyModifiedPropertiesWithoutUndo();
+            EditorUtility.SetDirty(appLovinSettingsAsset);
+            AssetDatabase.SaveAssets();
+            Debug.Log($"[BuildProfileMenu] Synced AppLovin settings asset from '{settings.name}'.");
+            return true;
+        }
+
+        private static void SetStringIfPropertyExists(SerializedObject serializedObject, string propertyName, string value)
+        {
+            var property = serializedObject.FindProperty(propertyName);
+            if (property == null)
+                return;
+
+            property.stringValue = value ?? string.Empty;
         }
 
         private static void PingAsset<T>(string assetPath) where T : Object

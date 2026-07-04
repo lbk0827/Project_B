@@ -288,103 +288,93 @@ namespace Game.Editor.LevelEditor
             if (arrows == null || arrows.Count == 0)
                 return result;
 
-            // 점유 셀 맵 생성
+            // 1. 화살표별 셀 집합 + 전체 점유 맵 구성
             var occupiedCells = new HashSet<Vector2Int>();
-            var arrowIdToCells = new Dictionary<int, List<Vector2Int>>();
-            var remainingArrows = new HashSet<int>();
-
+            var ownCells = new Dictionary<int, HashSet<Vector2Int>>();
             foreach (var arrow in arrows)
             {
-                arrowIdToCells[arrow.id] = new List<Vector2Int>(arrow.cells);
-                remainingArrows.Add(arrow.id);
+                var set = new HashSet<Vector2Int>(arrow.cells);
+                ownCells[arrow.id] = set;
                 foreach (var cell in arrow.cells)
-                {
                     occupiedCells.Add(cell);
-                }
             }
 
-            // 화살표 ID → 화살표 매핑
-            var arrowById = new Dictionary<int, EditorArrow>();
+            // 2. 각 화살표의 탈출 경로(자기 셀 제외)를 훑어 blockCount 계산
+            //    cellToBlockers[c] = 셀 c를 탈출 경로에 포함하는 화살표 목록
+            //    blockCount[id]   = 해당 화살표 경로 상 '다른 화살표가 점유한 셀' 수
+            //    → blockCount==0 이면 지금 탈출 가능 (CanEscapeNow와 동일 판정)
+            var cellToBlockers = new Dictionary<Vector2Int, List<int>>();
+            var blockCount = new Dictionary<int, int>();
+
             foreach (var arrow in arrows)
             {
-                arrowById[arrow.id] = arrow;
+                var own = ownCells[arrow.id];
+                Vector2Int head = arrow.cells[arrow.cells.Count - 1];
+                Vector2Int dir = GridUtility.GetDirectionVector(arrow.headDirection);
+                Vector2Int pos = head + dir;
+                int blocked = 0;
+
+                while (IsInsideGrid(pos))
+                {
+                    if (!own.Contains(pos))
+                    {
+                        if (!cellToBlockers.TryGetValue(pos, out var list))
+                        {
+                            list = new List<int>();
+                            cellToBlockers[pos] = list;
+                        }
+                        list.Add(arrow.id);
+
+                        // 자기 셀을 제외했으므로 점유 셀 = 다른 화살표가 막고 있음
+                        if (occupiedCells.Contains(pos))
+                            blocked++;
+                    }
+                    pos += dir;
+                }
+
+                blockCount[arrow.id] = blocked;
             }
 
-            // 반복: 탈출 가능한 화살표 찾아서 탈출
-            int maxIterations = arrows.Count * 2;  // 안전 장치
-            int iteration = 0;
+            // 3. Kahn 방식 동적 정렬
+            //    blockCount==0 화살표부터 탈출 → 비운 셀로 인해 풀리는 화살표를 큐에 추가.
+            //    입력 순서로 초기 큐를 채워 결과 순서를 결정적으로 유지.
+            var queue = new Queue<int>();
+            foreach (var arrow in arrows)
+                if (blockCount[arrow.id] == 0)
+                    queue.Enqueue(arrow.id);
 
-            while (remainingArrows.Count > 0 && iteration < maxIterations)
+            var escaped = new HashSet<int>();
+
+            while (queue.Count > 0)
             {
-                iteration++;
+                int id = queue.Dequeue();
+                if (!escaped.Add(id))
+                    continue;
 
-                // 현재 탈출 가능한 화살표 찾기
-                int escapeArrowId = -1;
+                result.Add(id);
 
-                foreach (int arrowId in remainingArrows)
+                // 탈출한 화살표의 셀을 비우고, 그 셀을 경로로 가진 화살표들의 blockCount 감소
+                foreach (var cell in ownCells[id])
                 {
-                    var arrow = arrowById[arrowId];
+                    if (!occupiedCells.Remove(cell))
+                        continue;
 
-                    if (CanEscapeNowDynamic(arrow, occupiedCells, arrowIdToCells))
+                    if (cellToBlockers.TryGetValue(cell, out var blockedArrows))
                     {
-                        escapeArrowId = arrowId;
-                        break;
+                        foreach (int other in blockedArrows)
+                        {
+                            if (escaped.Contains(other))
+                                continue;
+
+                            if (--blockCount[other] == 0)
+                                queue.Enqueue(other);
+                        }
                     }
                 }
-
-                if (escapeArrowId < 0)
-                {
-                    // 탈출 가능한 화살표가 없음 = 사이클 또는 막힘
-                    Debug.LogWarning($"[DependencyGraph] Dynamic topological sort stuck: {remainingArrows.Count} arrows remaining");
-                    break;
-                }
-
-                // 화살표 탈출
-                result.Add(escapeArrowId);
-                remainingArrows.Remove(escapeArrowId);
-
-                // 점유 셀에서 제거
-                foreach (var cell in arrowIdToCells[escapeArrowId])
-                {
-                    occupiedCells.Remove(cell);
-                }
             }
 
+            // result.Count != arrows.Count 이면 사이클/막힘 존재 (호출부에서 판정)
             return result;
-        }
-
-        /// <summary>
-        /// 화살표가 현재 상태에서 탈출 가능한지 확인 (SolvabilityValidator.CanEscapeNow와 동일)
-        /// </summary>
-        private bool CanEscapeNowDynamic(
-            EditorArrow arrow,
-            HashSet<Vector2Int> occupiedCells,
-            Dictionary<int, List<Vector2Int>> arrowIdToCells)
-        {
-            Vector2Int head = arrow.cells[arrow.cells.Count - 1];
-            Vector2Int dir = GridUtility.GetDirectionVector(arrow.headDirection);
-            Vector2Int pos = head + dir;
-
-            // HEAD 방향으로 경계까지 이동
-            while (IsInsideGrid(pos))
-            {
-                // 자기 셀은 제외
-                if (arrow.cells.Contains(pos))
-                {
-                    pos += dir;
-                    continue;
-                }
-
-                // 다른 화살표가 막고 있는지 확인
-                if (occupiedCells.Contains(pos))
-                {
-                    return false;  // 막힘
-                }
-
-                pos += dir;
-            }
-
-            return true;  // 경계까지 도달 = 탈출 가능
         }
 
         // ========== 사이클 해소 ==========

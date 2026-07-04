@@ -1161,51 +1161,6 @@ Material:
     - _UnderlayColor: {r: 0, g: 0, b: 0, a: 0.5}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
---- !u!1 &1007568607
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1007568609}
-  - component: {fileID: 1007568608}
-  m_Layer: 0
-  m_Name: HintManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1007568608
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1007568607}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 76e73e38ba0854712a75aed1aa85f44e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Game.Core.HintManager
-  _autoHideDuration: 5
---- !u!4 &1007568609
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1007568607}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1136356836
 GameObject:
   m_ObjectHideFlags: 0
@@ -1264,10 +1219,10 @@ MonoBehaviour:
   _levelConfig: {fileID: 0}
   _enableAutoSpeedUp: 1
   _speedUpMultiplier: 2
-  _guideLineManager: {fileID: 2101686289}
+  _guideLineManager: {fileID: 0}
   _arrowDashManager: {fileID: 1297435909}
-  _hintManager: {fileID: 1007568608}
-  _eraserManager: {fileID: 1686957914}
+  _hintManager: {fileID: 0}
+  _eraserManager: {fileID: 0}
 --- !u!114 &1136356839
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1889,50 +1844,6 @@ Material:
     - _UnderlayColor: {r: 0, g: 0, b: 0, a: 0.5}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
---- !u!1 &1686957913
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1686957915}
-  - component: {fileID: 1686957914}
-  m_Layer: 0
-  m_Name: EraserManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1686957914
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1686957913}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5497e9dceae2c49aaa52c0991e4d93b4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Game.Core.EraserManager
---- !u!4 &1686957915
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1686957913}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1698948009 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 812065416358764886, guid: 83dec4d557d574dd1bf05eb49e5a84d6, type: 3}
@@ -2129,56 +2040,6 @@ CanvasGroup:
   m_CorrespondingSourceObject: {fileID: 9191214899773190161, guid: e3a97d4be6407456d9db0726faf60939, type: 3}
   m_PrefabInstance: {fileID: 6216906955712373695}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &2101686288
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2101686290}
-  - component: {fileID: 2101686289}
-  m_Layer: 0
-  m_Name: GuideLineManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &2101686289
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2101686288}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c9e63e707dfc4b0458f2cfa2d92e56d2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _lineColor: {r: 0.53, g: 0.53, b: 0.53, a: 0.6}
-  _lineWidth: 0.05
-  _sortingLayerName: Background
-  _sortingOrder: 0
-  _fadeInDuration: 0.2
-  _fadeOutDuration: 0.15
---- !u!4 &2101686290
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2101686288}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &47771233331800001 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2667178495772297196, guid: 3b6bc375682b244dfb4f10b9ce89855e, type: 3}
@@ -3132,8 +2993,5 @@ SceneRoots:
   - {fileID: 963571225}
   - {fileID: 517168999}
   - {fileID: 138771304}
-  - {fileID: 2101686290}
   - {fileID: 1297435910}
   - {fileID: 1339271754}
-  - {fileID: 1007568609}
-  - {fileID: 1686957915}

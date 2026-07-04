@@ -44,10 +44,8 @@ namespace Game.Editor.LevelEditor
         private HashSet<Vector2Int> _validTargets;      // 탈출 가능 타겟 (경계 + 기존 화살표 Body)
         private HashSet<Vector2Int> _occupied;          // 점유된 셀
         private List<EditorArrow> _arrows;
-        private List<int> _creationOrder;               // 생성 순서 (ID 리스트)
 
         // ========== 의존성 그래프 (Gemini/GPT 권장) ==========
-        private Dictionary<int, int> _dependsOn;        // arrowId → 의존하는 arrowId (-1 = 경계 직접 탈출)
 
         // ========== 초기화 ==========
 
@@ -118,10 +116,8 @@ namespace Game.Editor.LevelEditor
         {
             _cancelRequested = false;
             _arrows = new List<EditorArrow>();
-            _creationOrder = new List<int>();
             _occupied = new HashSet<Vector2Int>();
             _validTargets = new HashSet<Vector2Int>();
-            _dependsOn = new Dictionary<int, int>();  // 의존성 그래프 초기화
 
             Debug.Log("[ReverseGrowthGenerator] ========== 생성 시작 ==========");
 
@@ -147,14 +143,10 @@ namespace Game.Editor.LevelEditor
                 if (arrow != null)
                 {
                     _arrows.Add(arrow);
-                    _creationOrder.Add(arrow.id);
 
                     // 핵심: Body 셀을 ValidTargets에 추가
                     AddBodyToValidTargets(arrow);
                     MarkOccupied(arrow.cells);
-
-                    // 의존성 기록 (Gemini/GPT 권장)
-                    RecordDependency(arrow);
 
                     arrowId++;
                     consecutiveFailures = 0;
@@ -189,12 +181,6 @@ namespace Game.Editor.LevelEditor
             ReportProgress("Phase 3/6: Gap Filling...", 0.65f);
             FillGaps(ref arrowId);
             Debug.Log($"[ReverseGrowthGenerator] Phase 3 완료: 총 {_arrows.Count} arrows");
-
-            // Phase 3.5: Gap Filling 후 모든 의존성 재계산 (핵심 수정!)
-            // Tail 확장으로 기존 화살표의 Body가 변경되어 의존 관계가 달라질 수 있음
-            Debug.Log("[ReverseGrowthGenerator] Phase 3.5: 의존성 재계산");
-            ReportProgress("Phase 4/6: 의존성 재계산...", 0.75f);
-            RecalculateAllDependencies();
 
             // Phase 4: 색상 할당
             Debug.Log("[ReverseGrowthGenerator] Phase 4: 색상 할당");
@@ -327,223 +313,6 @@ namespace Game.Editor.LevelEditor
             bool wouldCreateCycle = sortResult.Count != _arrows.Count;
 
             return wouldCreateCycle;
-        }
-
-        /// <summary>
-        /// 화살표 생성 시 의존성 기록
-        /// Head 탈출 경로에 다른 화살표의 셀(Body 또는 Head)이 있으면 의존 관계 성립
-        ///
-        /// 핵심 수정: Body뿐만 아니라 Head도 막힘으로 인식
-        /// SolvabilityValidator와 동일한 로직 적용
-        /// </summary>
-        private void RecordDependency(EditorArrow arrow)
-        {
-            Vector2Int head = arrow.cells[arrow.cells.Count - 1];
-            Vector2Int dir = GetDirectionVector(arrow.headDirection);
-            Vector2Int pos = head + dir;
-
-            int dependencyTarget = -1;  // -1 = 경계 직접 탈출
-
-            while (IsInBounds(pos))
-            {
-                // 다른 화살표의 셀(Body 또는 Head)에 막히면 의존 관계 성립
-                foreach (var other in _arrows)
-                {
-                    if (other.id == arrow.id) continue;
-
-                    // 핵심 수정: 모든 셀 확인 (Head 포함)
-                    // SolvabilityValidator의 CanEscapeNow와 동일한 로직
-                    if (other.cells.Contains(pos))
-                    {
-                        dependencyTarget = other.id;
-                        break;
-                    }
-                }
-                if (dependencyTarget >= 0) break;
-                pos += dir;
-            }
-
-            _dependsOn[arrow.id] = dependencyTarget;
-
-            if (dependencyTarget >= 0)
-            {
-                Debug.Log($"[ReverseGrowthGenerator] Arrow {arrow.id} depends on Arrow {dependencyTarget}");
-            }
-        }
-
-        /// <summary>
-        /// Gap Filling 후 모든 화살표의 의존성을 재계산
-        /// Tail 확장으로 기존 화살표의 Body가 변경되어 의존 관계가 달라질 수 있음
-        ///
-        /// 핵심 수정: Body뿐만 아니라 Head도 막힘으로 인식
-        /// SolvabilityValidator와 동일한 로직 적용
-        /// </summary>
-        private void RecalculateAllDependencies()
-        {
-            // 이전 의존성 저장 (변경 감지용)
-            var oldDependencies = new Dictionary<int, int>(_dependsOn);
-
-            // 의존성 그래프 초기화
-            _dependsOn.Clear();
-
-            int changedCount = 0;
-
-            // 모든 화살표에 대해 의존성 재계산
-            foreach (var arrow in _arrows)
-            {
-                int oldDependency = oldDependencies.ContainsKey(arrow.id) ? oldDependencies[arrow.id] : -999;
-
-                // RecordDependency와 동일한 로직
-                Vector2Int head = arrow.cells[arrow.cells.Count - 1];
-                Vector2Int dir = GetDirectionVector(arrow.headDirection);
-                Vector2Int pos = head + dir;
-
-                int dependencyTarget = -1;  // -1 = 경계 직접 탈출
-
-                while (IsInBounds(pos))
-                {
-                    // 핵심 수정: 다른 화살표의 셀(Body 또는 Head)에 막히면 의존 관계 성립
-                    // SolvabilityValidator의 CanEscapeNow와 동일한 로직
-                    foreach (var other in _arrows)
-                    {
-                        if (other.id == arrow.id) continue;
-
-                        // 모든 셀 확인 (Head 포함)
-                        if (other.cells.Contains(pos))
-                        {
-                            dependencyTarget = other.id;
-                            break;
-                        }
-                    }
-                    if (dependencyTarget >= 0) break;
-                    pos += dir;
-                }
-
-                _dependsOn[arrow.id] = dependencyTarget;
-
-                // 변경 감지
-                if (oldDependency != -999 && oldDependency != dependencyTarget)
-                {
-                    changedCount++;
-                    Debug.Log($"[ReverseGrowthGenerator] Arrow {arrow.id} dependency changed: {oldDependency} → {dependencyTarget}");
-                }
-            }
-
-            Debug.Log($"[ReverseGrowthGenerator] 의존성 재계산 완료: {changedCount}개 변경됨");
-        }
-
-        /// <summary>
-        /// Tail 확장 후 영향받는 화살표의 의존성 업데이트
-        /// 새 Body 셀로 인해 의존 관계가 변경될 수 있음
-        /// </summary>
-        private void UpdateDependenciesAfterTailExtension(EditorArrow extendedArrow, List<Vector2Int> newCells)
-        {
-            var newBodyCells = new HashSet<Vector2Int>(newCells);
-
-            foreach (var other in _arrows)
-            {
-                if (other.id == extendedArrow.id)
-                    continue;
-
-                // other의 탈출 경로가 새 Body 셀을 지나는지 확인
-                Vector2Int otherHead = other.cells[other.cells.Count - 1];
-                Vector2Int otherDir = GetDirectionVector(other.headDirection);
-                Vector2Int otherPos = otherHead + otherDir;
-
-                while (IsInBounds(otherPos))
-                {
-                    if (newBodyCells.Contains(otherPos))
-                    {
-                        // other가 extendedArrow에 의존하게 됨
-                        int oldDep = _dependsOn.ContainsKey(other.id) ? _dependsOn[other.id] : -1;
-                        if (oldDep != extendedArrow.id)
-                        {
-                            _dependsOn[other.id] = extendedArrow.id;
-                            Debug.Log($"[ReverseGrowthGenerator] Tail extension: Arrow {other.id} now depends on Arrow {extendedArrow.id}");
-                        }
-                        break;
-                    }
-
-                    // 기존 화살표에 막히면 중단
-                    bool blocked = false;
-                    foreach (var existing in _arrows)
-                    {
-                        if (existing.id != other.id && existing.cells.Contains(otherPos))
-                        {
-                            blocked = true;
-                            break;
-                        }
-                    }
-                    if (blocked) break;
-
-                    otherPos += otherDir;
-                }
-            }
-        }
-
-        /// <summary>
-        /// 의존성 그래프를 기반으로 해답 순서 계산 (Topological Sort - Kahn's Algorithm)
-        /// </summary>
-        private List<int> ComputeSolutionOrder()
-        {
-            var result = new List<int>();
-            var inDegree = new Dictionary<int, int>();
-            var graph = new Dictionary<int, List<int>>();  // A → B: A가 탈출해야 B가 탈출 가능
-
-            // 그래프 초기화
-            foreach (var arrow in _arrows)
-            {
-                inDegree[arrow.id] = 0;
-                graph[arrow.id] = new List<int>();
-            }
-
-            // 의존성 → 그래프 변환
-            // A가 B에 의존 → B가 먼저 탈출해야 함 → graph[B].Add(A)
-            foreach (var kvp in _dependsOn)
-            {
-                int arrowId = kvp.Key;
-                int dependsOnId = kvp.Value;
-
-                if (dependsOnId >= 0 && graph.ContainsKey(dependsOnId))
-                {
-                    graph[dependsOnId].Add(arrowId);
-                    inDegree[arrowId]++;
-                }
-            }
-
-            // Kahn's Algorithm
-            var queue = new Queue<int>();
-            foreach (var kvp in inDegree)
-            {
-                if (kvp.Value == 0)
-                    queue.Enqueue(kvp.Key);
-            }
-
-            while (queue.Count > 0)
-            {
-                int current = queue.Dequeue();
-                result.Add(current);
-
-                foreach (int next in graph[current])
-                {
-                    inDegree[next]--;
-                    if (inDegree[next] == 0)
-                        queue.Enqueue(next);
-                }
-            }
-
-            // 사이클 감지
-            if (result.Count != _arrows.Count)
-            {
-                Debug.LogError($"[ReverseGrowthGenerator] Cycle detected! Only {result.Count}/{_arrows.Count} arrows in solution");
-                // Fallback: creationOrder 역순 (기존 방식)
-                var fallback = new List<int>(_creationOrder);
-                fallback.Reverse();
-                return fallback;
-            }
-
-            Debug.Log($"[ReverseGrowthGenerator] Topological sort successful: [{string.Join(", ", result)}]");
-            return result;
         }
 
         // ========== Phase 1: ValidTargets 초기화 ==========
@@ -985,12 +754,8 @@ namespace Game.Editor.LevelEditor
                 if (newArrow != null)
                 {
                     _arrows.Add(newArrow);
-                    _creationOrder.Add(newArrow.id);
                     AddBodyToValidTargets(newArrow);
                     MarkOccupied(newArrow.cells);
-
-                    // Gap Filling에서도 의존성 기록 (Gemini/GPT 권장)
-                    RecordDependency(newArrow);
 
                     arrowId++;
 
@@ -1041,10 +806,8 @@ namespace Game.Editor.LevelEditor
                     if (singleArrow != null)
                     {
                         _arrows.Add(singleArrow);
-                        _creationOrder.Add(singleArrow.id);
                         _occupied.Add(emptyCell);
                         _validTargets.Add(emptyCell);
-                        RecordDependency(singleArrow);
                         arrowId++;
 
                         Debug.Log($"[ReverseGrowthGenerator] Single-cell arrow created at {emptyCell}, Dir={singleArrow.headDirection}");
@@ -1147,9 +910,6 @@ namespace Game.Editor.LevelEditor
 
                 // ValidTargets 업데이트 (새 Tail은 ValidTarget이 됨)
                 _validTargets.Add(targetCell);
-
-                // 의존성 그래프 업데이트 (새 Body로 인해 의존 관계 변경될 수 있음)
-                UpdateDependenciesAfterTailExtension(arrow, newCells);
 
                 return true;
             }
@@ -1464,9 +1224,6 @@ namespace Game.Editor.LevelEditor
                     _validTargets.Add(path[i]);
                 }
 
-                // Phase 2.5: 의존성 그래프 업데이트
-                UpdateDependenciesAfterTailExtension(arrow, path);
-
                 return true;
             }
 
@@ -1580,8 +1337,6 @@ namespace Game.Editor.LevelEditor
                         _occupied.Add(targetCell);
                         _validTargets.Add(targetCell);
 
-                        // 의존성 그래프 업데이트
-                        UpdateDependenciesAfterTailExtension(arrow, newCells);
                         return true;
                     }
                 }
@@ -1641,9 +1396,6 @@ namespace Game.Editor.LevelEditor
                     _occupied.Add(path[i]);
                     _validTargets.Add(path[i]);
                 }
-
-                // 의존성 그래�� 업데이트
-                UpdateDependenciesAfterTailExtension(arrow, path);
 
                 return true;
             }

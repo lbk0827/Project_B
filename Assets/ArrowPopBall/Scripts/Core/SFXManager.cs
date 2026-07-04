@@ -23,6 +23,14 @@ namespace Game.Core
         {
             _audioSource = gameObject.AddComponent<AudioSource>();
             _audioSource.playOnAwake = false;
+            _audioSource.loop = false;
+            _audioSource.volume = 1f;
+            _audioSource.spatialBlend = 0f;
+            _audioSource.ignoreListenerPause = true;
+
+            PreloadClip(_balloonPop);
+            PreloadClip(_balloonPick);
+            PreloadClip(_balloonHit);
         }
 
         // ========== 공개 인터페이스 ==========
@@ -32,8 +40,7 @@ namespace Game.Core
         /// </summary>
         public void PlayBalloonPop()
         {
-            if (_balloonPop != null)
-                _audioSource.PlayOneShot(_balloonPop);
+            PlayClip(_balloonPop);
         }
 
         /// <summary>
@@ -41,8 +48,7 @@ namespace Game.Core
         /// </summary>
         public void PlayBalloonPick()
         {
-            if (_balloonPick != null)
-                _audioSource.PlayOneShot(_balloonPick);
+            PlayClip(_balloonPick);
         }
 
         /// <summary>
@@ -50,8 +56,31 @@ namespace Game.Core
         /// </summary>
         public void PlayBalloonHit()
         {
-            if (_balloonHit != null)
-                _audioSource.PlayOneShot(_balloonHit);
+            PlayClip(_balloonHit);
+        }
+
+        private void PlayClip(AudioClip clip)
+        {
+            if (clip == null || _audioSource == null)
+                return;
+
+            if (!clip.preloadAudioData && clip.loadState == AudioDataLoadState.Unloaded)
+            {
+                clip.LoadAudioData();
+            }
+
+            _audioSource.PlayOneShot(clip);
+        }
+
+        private static void PreloadClip(AudioClip clip)
+        {
+            if (clip == null)
+                return;
+
+            if (!clip.preloadAudioData && clip.loadState == AudioDataLoadState.Unloaded)
+            {
+                clip.LoadAudioData();
+            }
         }
     }
 }

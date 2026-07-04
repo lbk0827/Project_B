@@ -1,62 +1,603 @@
 [
-	{
-		"Level": 1,
-		"StageIdx": 1,
-		"Difficulty": 1,
-		"Lives": 3
-	},
-	{
-		"Level": 2,
-		"StageIdx": 2,
-		"Difficulty": 1,
-		"Lives": 5
-	},
-	{
-		"Level": 3,
-		"StageIdx": 3,
-		"Difficulty": 1,
-		"Lives": 3
-	},
-	{
-		"Level": 4,
-		"StageIdx": 4,
-		"Difficulty": 1,
-		"Lives": 3
-	},
-	{
-		"Level": 5,
-		"StageIdx": 5,
-		"Difficulty": 1,
-		"Lives": 3
-	},
-	{
-		"Level": 6,
-		"StageIdx": 6,
-		"Difficulty": 1,
-		"Lives": 5
-	},
-	{
-		"Level": 7,
-		"StageIdx": 7,
-		"Difficulty": 1,
-		"Lives": 3
-	},
-	{
-		"Level": 8,
-		"StageIdx": 8,
-		"Difficulty": 1,
-		"Lives": 3
-	},
-	{
-		"Level": 9,
-		"StageIdx": 9,
-		"Difficulty": 1,
-		"Lives": 3
-	},
-	{
-		"Level": 10,
-		"StageIdx": 10,
-		"Difficulty": 1,
-		"Lives": 5
-	}
+    {
+        "Level":  1,
+        "StageIdx":  1,
+        "Difficulty":  1,
+        "Lives":  3
+    },
+    {
+        "Level":  2,
+        "StageIdx":  2,
+        "Difficulty":  1,
+        "Lives":  5
+    },
+    {
+        "Level":  3,
+        "StageIdx":  3,
+        "Difficulty":  1,
+        "Lives":  3
+    },
+    {
+        "Level":  4,
+        "StageIdx":  4,
+        "Difficulty":  1,
+        "Lives":  3
+    },
+    {
+        "Level":  5,
+        "StageIdx":  5,
+        "Difficulty":  1,
+        "Lives":  3
+    },
+    {
+        "Level":  6,
+        "StageIdx":  6,
+        "Difficulty":  1,
+        "Lives":  5
+    },
+    {
+        "Level":  7,
+        "StageIdx":  7,
+        "Difficulty":  1,
+        "Lives":  3
+    },
+    {
+        "Level":  8,
+        "StageIdx":  8,
+        "Difficulty":  1,
+        "Lives":  3
+    },
+    {
+        "Level":  9,
+        "StageIdx":  9,
+        "Difficulty":  1,
+        "Lives":  3
+    },
+    {
+        "Level":  10,
+        "StageIdx":  10,
+        "Difficulty":  1,
+        "Lives":  5
+    },
+    {
+        "Level":  11,
+        "StageIdx":  11,
+        "Difficulty":  1,
+        "Lives":  5
+    },
+    {
+        "Level":  12,
+        "StageIdx":  12,
+        "Difficulty":  1,
+        "Lives":  5
+    },
+    {
+        "Level":  13,
+        "StageIdx":  13,
+        "Difficulty":  1,
+        "Lives":  5
+    },
+    {
+        "Level":  14,
+        "StageIdx":  14,
+        "Difficulty":  1,
+        "Lives":  5
+    },
+    {
+        "Level":  15,
+        "StageIdx":  15,
+        "Difficulty":  1,
+        "Lives":  5
+    },
+    {
+        "Level":  16,
+        "StageIdx":  16,
+        "Difficulty":  1,
+        "Lives":  5
+    },
+    {
+        "Level":  17,
+        "StageIdx":  17,
+        "Difficulty":  1,
+        "Lives":  5
+    },
+    {
+        "Level":  18,
+        "StageIdx":  18,
+        "Difficulty":  1,
+        "Lives":  5
+    },
+    {
+        "Level":  19,
+        "StageIdx":  19,
+        "Difficulty":  1,
+        "Lives":  5
+    },
+    {
+        "Level":  20,
+        "StageIdx":  20,
+        "Difficulty":  1,
+        "Lives":  5
+    },
+    {
+        "Level":  21,
+        "StageIdx":  21,
+        "Difficulty":  1,
+        "Lives":  4
+    },
+    {
+        "Level":  22,
+        "StageIdx":  22,
+        "Difficulty":  1,
+        "Lives":  4
+    },
+    {
+        "Level":  23,
+        "StageIdx":  23,
+        "Difficulty":  1,
+        "Lives":  4
+    },
+    {
+        "Level":  24,
+        "StageIdx":  24,
+        "Difficulty":  1,
+        "Lives":  4
+    },
+    {
+        "Level":  25,
+        "StageIdx":  25,
+        "Difficulty":  1,
+        "Lives":  4
+    },
+    {
+        "Level":  26,
+        "StageIdx":  26,
+        "Difficulty":  1,
+        "Lives":  4
+    },
+    {
+        "Level":  27,
+        "StageIdx":  27,
+        "Difficulty":  1,
+        "Lives":  4
+    },
+    {
+        "Level":  28,
+        "StageIdx":  28,
+        "Difficulty":  1,
+        "Lives":  4
+    },
+    {
+        "Level":  29,
+        "StageIdx":  29,
+        "Difficulty":  1,
+        "Lives":  4
+    },
+    {
+        "Level":  30,
+        "StageIdx":  30,
+        "Difficulty":  1,
+        "Lives":  4
+    },
+    {
+        "Level":  31,
+        "StageIdx":  31,
+        "Difficulty":  1,
+        "Lives":  4
+    },
+    {
+        "Level":  32,
+        "StageIdx":  32,
+        "Difficulty":  1,
+        "Lives":  4
+    },
+    {
+        "Level":  33,
+        "StageIdx":  33,
+        "Difficulty":  1,
+        "Lives":  4
+    },
+    {
+        "Level":  34,
+        "StageIdx":  34,
+        "Difficulty":  1,
+        "Lives":  4
+    },
+    {
+        "Level":  35,
+        "StageIdx":  35,
+        "Difficulty":  1,
+        "Lives":  4
+    },
+    {
+        "Level":  36,
+        "StageIdx":  36,
+        "Difficulty":  2,
+        "Lives":  4
+    },
+    {
+        "Level":  37,
+        "StageIdx":  37,
+        "Difficulty":  2,
+        "Lives":  4
+    },
+    {
+        "Level":  38,
+        "StageIdx":  38,
+        "Difficulty":  2,
+        "Lives":  4
+    },
+    {
+        "Level":  39,
+        "StageIdx":  39,
+        "Difficulty":  2,
+        "Lives":  4
+    },
+    {
+        "Level":  40,
+        "StageIdx":  40,
+        "Difficulty":  2,
+        "Lives":  4
+    },
+    {
+        "Level":  41,
+        "StageIdx":  41,
+        "Difficulty":  2,
+        "Lives":  4
+    },
+    {
+        "Level":  42,
+        "StageIdx":  42,
+        "Difficulty":  2,
+        "Lives":  4
+    },
+    {
+        "Level":  43,
+        "StageIdx":  43,
+        "Difficulty":  2,
+        "Lives":  4
+    },
+    {
+        "Level":  44,
+        "StageIdx":  44,
+        "Difficulty":  2,
+        "Lives":  4
+    },
+    {
+        "Level":  45,
+        "StageIdx":  45,
+        "Difficulty":  2,
+        "Lives":  4
+    },
+    {
+        "Level":  46,
+        "StageIdx":  46,
+        "Difficulty":  2,
+        "Lives":  4
+    },
+    {
+        "Level":  47,
+        "StageIdx":  47,
+        "Difficulty":  2,
+        "Lives":  4
+    },
+    {
+        "Level":  48,
+        "StageIdx":  48,
+        "Difficulty":  2,
+        "Lives":  4
+    },
+    {
+        "Level":  49,
+        "StageIdx":  49,
+        "Difficulty":  2,
+        "Lives":  4
+    },
+    {
+        "Level":  50,
+        "StageIdx":  50,
+        "Difficulty":  2,
+        "Lives":  4
+    },
+    {
+        "Level":  51,
+        "StageIdx":  51,
+        "Difficulty":  2,
+        "Lives":  3
+    },
+    {
+        "Level":  52,
+        "StageIdx":  52,
+        "Difficulty":  2,
+        "Lives":  3
+    },
+    {
+        "Level":  53,
+        "StageIdx":  53,
+        "Difficulty":  2,
+        "Lives":  3
+    },
+    {
+        "Level":  54,
+        "StageIdx":  54,
+        "Difficulty":  2,
+        "Lives":  3
+    },
+    {
+        "Level":  55,
+        "StageIdx":  55,
+        "Difficulty":  2,
+        "Lives":  3
+    },
+    {
+        "Level":  56,
+        "StageIdx":  56,
+        "Difficulty":  2,
+        "Lives":  3
+    },
+    {
+        "Level":  57,
+        "StageIdx":  57,
+        "Difficulty":  2,
+        "Lives":  3
+    },
+    {
+        "Level":  58,
+        "StageIdx":  58,
+        "Difficulty":  2,
+        "Lives":  3
+    },
+    {
+        "Level":  59,
+        "StageIdx":  59,
+        "Difficulty":  2,
+        "Lives":  3
+    },
+    {
+        "Level":  60,
+        "StageIdx":  60,
+        "Difficulty":  2,
+        "Lives":  3
+    },
+    {
+        "Level":  61,
+        "StageIdx":  61,
+        "Difficulty":  2,
+        "Lives":  3
+    },
+    {
+        "Level":  62,
+        "StageIdx":  62,
+        "Difficulty":  2,
+        "Lives":  3
+    },
+    {
+        "Level":  63,
+        "StageIdx":  63,
+        "Difficulty":  2,
+        "Lives":  3
+    },
+    {
+        "Level":  64,
+        "StageIdx":  64,
+        "Difficulty":  2,
+        "Lives":  3
+    },
+    {
+        "Level":  65,
+        "StageIdx":  65,
+        "Difficulty":  2,
+        "Lives":  3
+    },
+    {
+        "Level":  66,
+        "StageIdx":  66,
+        "Difficulty":  3,
+        "Lives":  3
+    },
+    {
+        "Level":  67,
+        "StageIdx":  67,
+        "Difficulty":  3,
+        "Lives":  3
+    },
+    {
+        "Level":  68,
+        "StageIdx":  68,
+        "Difficulty":  3,
+        "Lives":  3
+    },
+    {
+        "Level":  69,
+        "StageIdx":  69,
+        "Difficulty":  3,
+        "Lives":  3
+    },
+    {
+        "Level":  70,
+        "StageIdx":  70,
+        "Difficulty":  3,
+        "Lives":  3
+    },
+    {
+        "Level":  71,
+        "StageIdx":  71,
+        "Difficulty":  3,
+        "Lives":  3
+    },
+    {
+        "Level":  72,
+        "StageIdx":  72,
+        "Difficulty":  3,
+        "Lives":  3
+    },
+    {
+        "Level":  73,
+        "StageIdx":  73,
+        "Difficulty":  3,
+        "Lives":  3
+    },
+    {
+        "Level":  74,
+        "StageIdx":  74,
+        "Difficulty":  3,
+        "Lives":  3
+    },
+    {
+        "Level":  75,
+        "StageIdx":  75,
+        "Difficulty":  3,
+        "Lives":  3
+    },
+    {
+        "Level":  76,
+        "StageIdx":  76,
+        "Difficulty":  3,
+        "Lives":  3
+    },
+    {
+        "Level":  77,
+        "StageIdx":  77,
+        "Difficulty":  3,
+        "Lives":  3
+    },
+    {
+        "Level":  78,
+        "StageIdx":  78,
+        "Difficulty":  3,
+        "Lives":  3
+    },
+    {
+        "Level":  79,
+        "StageIdx":  79,
+        "Difficulty":  3,
+        "Lives":  3
+    },
+    {
+        "Level":  80,
+        "StageIdx":  80,
+        "Difficulty":  3,
+        "Lives":  3
+    },
+    {
+        "Level":  81,
+        "StageIdx":  81,
+        "Difficulty":  3,
+        "Lives":  3
+    },
+    {
+        "Level":  82,
+        "StageIdx":  82,
+        "Difficulty":  3,
+        "Lives":  3
+    },
+    {
+        "Level":  83,
+        "StageIdx":  83,
+        "Difficulty":  3,
+        "Lives":  3
+    },
+    {
+        "Level":  84,
+        "StageIdx":  84,
+        "Difficulty":  3,
+        "Lives":  3
+    },
+    {
+        "Level":  85,
+        "StageIdx":  85,
+        "Difficulty":  3,
+        "Lives":  3
+    },
+    {
+        "Level":  86,
+        "StageIdx":  86,
+        "Difficulty":  3,
+        "Lives":  3
+    },
+    {
+        "Level":  87,
+        "StageIdx":  87,
+        "Difficulty":  3,
+        "Lives":  3
+    },
+    {
+        "Level":  88,
+        "StageIdx":  88,
+        "Difficulty":  3,
+        "Lives":  3
+    },
+    {
+        "Level":  89,
+        "StageIdx":  89,
+        "Difficulty":  3,
+        "Lives":  3
+    },
+    {
+        "Level":  90,
+        "StageIdx":  90,
+        "Difficulty":  3,
+        "Lives":  3
+    },
+    {
+        "Level":  91,
+        "StageIdx":  91,
+        "Difficulty":  3,
+        "Lives":  3
+    },
+    {
+        "Level":  92,
+        "StageIdx":  92,
+        "Difficulty":  3,
+        "Lives":  3
+    },
+    {
+        "Level":  93,
+        "StageIdx":  93,
+        "Difficulty":  3,
+        "Lives":  3
+    },
+    {
+        "Level":  94,
+        "StageIdx":  94,
+        "Difficulty":  3,
+        "Lives":  3
+    },
+    {
+        "Level":  95,
+        "StageIdx":  95,
+        "Difficulty":  3,
+        "Lives":  3
+    },
+    {
+        "Level":  96,
+        "StageIdx":  96,
+        "Difficulty":  3,
+        "Lives":  3
+    },
+    {
+        "Level":  97,
+        "StageIdx":  97,
+        "Difficulty":  3,
+        "Lives":  3
+    },
+    {
+        "Level":  98,
+        "StageIdx":  98,
+        "Difficulty":  3,
+        "Lives":  3
+    },
+    {
+        "Level":  99,
+        "StageIdx":  99,
+        "Difficulty":  3,
+        "Lives":  3
+    },
+    {
+        "Level":  100,
+        "StageIdx":  100,
+        "Difficulty":  3,
+        "Lives":  3
+    }
 ]
+

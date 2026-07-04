@@ -1,0 +1,336 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db596979d0282e94b96d7db50ce94127, type: 3}
+  m_Name: Stage_044
+  m_EditorClassIdentifier: 
+  stageId: Stage_044
+  description: 'Auto balanced L044: 16x16, Arrows: 45, Vertical chain columns'
+  gridWidth: 16
+  gridHeight: 16
+  arrows:
+  - id: 1
+    x: 1
+    y: 2
+    color: 3
+    segments:
+    - direction: 1
+      length: 2
+  - id: 2
+    x: 1
+    y: 5
+    color: 5
+    segments:
+    - direction: 1
+      length: 2
+  - id: 3
+    x: 1
+    y: 8
+    color: 0
+    segments:
+    - direction: 1
+      length: 2
+  - id: 4
+    x: 1
+    y: 11
+    color: 2
+    segments:
+    - direction: 1
+      length: 2
+  - id: 5
+    x: 1
+    y: 14
+    color: 4
+    segments:
+    - direction: 1
+      length: 2
+  - id: 6
+    x: 3
+    y: 2
+    color: 1
+    segments:
+    - direction: 1
+      length: 2
+  - id: 7
+    x: 3
+    y: 5
+    color: 3
+    segments:
+    - direction: 1
+      length: 2
+  - id: 8
+    x: 3
+    y: 8
+    color: 5
+    segments:
+    - direction: 1
+      length: 2
+  - id: 9
+    x: 3
+    y: 11
+    color: 0
+    segments:
+    - direction: 1
+      length: 2
+  - id: 10
+    x: 3
+    y: 14
+    color: 2
+    segments:
+    - direction: 1
+      length: 2
+  - id: 11
+    x: 4
+    y: 13
+    color: 6
+    segments:
+    - direction: 0
+      length: 2
+  - id: 12
+    x: 4
+    y: 10
+    color: 1
+    segments:
+    - direction: 0
+      length: 2
+  - id: 13
+    x: 4
+    y: 7
+    color: 3
+    segments:
+    - direction: 0
+      length: 2
+  - id: 14
+    x: 4
+    y: 4
+    color: 5
+    segments:
+    - direction: 0
+      length: 2
+  - id: 15
+    x: 4
+    y: 1
+    color: 0
+    segments:
+    - direction: 0
+      length: 2
+  - id: 16
+    x: 6
+    y: 13
+    color: 4
+    segments:
+    - direction: 0
+      length: 2
+  - id: 17
+    x: 6
+    y: 10
+    color: 6
+    segments:
+    - direction: 0
+      length: 2
+  - id: 18
+    x: 6
+    y: 7
+    color: 1
+    segments:
+    - direction: 0
+      length: 2
+  - id: 19
+    x: 6
+    y: 4
+    color: 3
+    segments:
+    - direction: 0
+      length: 2
+  - id: 20
+    x: 6
+    y: 1
+    color: 5
+    segments:
+    - direction: 0
+      length: 2
+  - id: 21
+    x: 8
+    y: 13
+    color: 2
+    segments:
+    - direction: 0
+      length: 2
+  - id: 22
+    x: 8
+    y: 10
+    color: 4
+    segments:
+    - direction: 0
+      length: 2
+  - id: 23
+    x: 8
+    y: 7
+    color: 6
+    segments:
+    - direction: 0
+      length: 2
+  - id: 24
+    x: 8
+    y: 4
+    color: 1
+    segments:
+    - direction: 0
+      length: 2
+  - id: 25
+    x: 8
+    y: 1
+    color: 3
+    segments:
+    - direction: 0
+      length: 2
+  - id: 26
+    x: 9
+    y: 2
+    color: 0
+    segments:
+    - direction: 1
+      length: 2
+  - id: 27
+    x: 9
+    y: 5
+    color: 2
+    segments:
+    - direction: 1
+      length: 2
+  - id: 28
+    x: 9
+    y: 8
+    color: 4
+    segments:
+    - direction: 1
+      length: 2
+  - id: 29
+    x: 9
+    y: 11
+    color: 6
+    segments:
+    - direction: 1
+      length: 2
+  - id: 30
+    x: 9
+    y: 14
+    color: 1
+    segments:
+    - direction: 1
+      length: 2
+  - id: 31
+    x: 11
+    y: 2
+    color: 5
+    segments:
+    - direction: 1
+      length: 2
+  - id: 32
+    x: 11
+    y: 5
+    color: 0
+    segments:
+    - direction: 1
+      length: 2
+  - id: 33
+    x: 11
+    y: 8
+    color: 2
+    segments:
+    - direction: 1
+      length: 2
+  - id: 34
+    x: 11
+    y: 11
+    color: 4
+    segments:
+    - direction: 1
+      length: 2
+  - id: 35
+    x: 11
+    y: 14
+    color: 6
+    segments:
+    - direction: 1
+      length: 2
+  - id: 36
+    x: 12
+    y: 13
+    color: 3
+    segments:
+    - direction: 0
+      length: 2
+  - id: 37
+    x: 12
+    y: 10
+    color: 5
+    segments:
+    - direction: 0
+      length: 2
+  - id: 38
+    x: 12
+    y: 7
+    color: 0
+    segments:
+    - direction: 0
+      length: 2
+  - id: 39
+    x: 12
+    y: 4
+    color: 2
+    segments:
+    - direction: 0
+      length: 2
+  - id: 40
+    x: 12
+    y: 1
+    color: 4
+    segments:
+    - direction: 0
+      length: 2
+  - id: 41
+    x: 14
+    y: 13
+    color: 1
+    segments:
+    - direction: 0
+      length: 2
+  - id: 42
+    x: 14
+    y: 10
+    color: 3
+    segments:
+    - direction: 0
+      length: 2
+  - id: 43
+    x: 14
+    y: 7
+    color: 5
+    segments:
+    - direction: 0
+      length: 2
+  - id: 44
+    x: 14
+    y: 4
+    color: 0
+    segments:
+    - direction: 0
+      length: 2
+  - id: 45
+    x: 14
+    y: 1
+    color: 2
+    segments:
+    - direction: 0
+      length: 2
+  solutionOrder: 0100000002000000030000000400000005000000060000000700000008000000090000000a0000000b0000000c0000000d0000000e0000000f000000100000001100000012000000130000001400000015000000160000001700000018000000190000001a0000001b0000001c0000001d0000001e0000001f000000200000002100000022000000230000002400000025000000260000002700000028000000290000002a0000002b0000002c0000002d000000
+

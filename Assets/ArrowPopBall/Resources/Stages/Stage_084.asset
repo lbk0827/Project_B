@@ -1,0 +1,756 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db596979d0282e94b96d7db50ce94127, type: 3}
+  m_Name: Stage_084
+  m_EditorClassIdentifier: 
+  stageId: Stage_084
+  description: 'Auto balanced L084: 22x22, Arrows: 105, Vertical chain columns'
+  gridWidth: 22
+  gridHeight: 22
+  arrows:
+  - id: 1
+    x: 1
+    y: 2
+    color: 5
+    segments:
+    - direction: 1
+      length: 2
+  - id: 2
+    x: 1
+    y: 5
+    color: 7
+    segments:
+    - direction: 1
+      length: 2
+  - id: 3
+    x: 1
+    y: 8
+    color: 9
+    segments:
+    - direction: 1
+      length: 2
+  - id: 4
+    x: 1
+    y: 11
+    color: 1
+    segments:
+    - direction: 1
+      length: 2
+  - id: 5
+    x: 1
+    y: 14
+    color: 3
+    segments:
+    - direction: 1
+      length: 2
+  - id: 6
+    x: 1
+    y: 17
+    color: 5
+    segments:
+    - direction: 1
+      length: 2
+  - id: 7
+    x: 1
+    y: 20
+    color: 7
+    segments:
+    - direction: 1
+      length: 2
+  - id: 8
+    x: 2
+    y: 19
+    color: 2
+    segments:
+    - direction: 0
+      length: 2
+  - id: 9
+    x: 2
+    y: 16
+    color: 4
+    segments:
+    - direction: 0
+      length: 2
+  - id: 10
+    x: 2
+    y: 13
+    color: 6
+    segments:
+    - direction: 0
+      length: 2
+  - id: 11
+    x: 2
+    y: 10
+    color: 8
+    segments:
+    - direction: 0
+      length: 2
+  - id: 12
+    x: 2
+    y: 7
+    color: 0
+    segments:
+    - direction: 0
+      length: 2
+  - id: 13
+    x: 2
+    y: 4
+    color: 2
+    segments:
+    - direction: 0
+      length: 2
+  - id: 14
+    x: 2
+    y: 1
+    color: 4
+    segments:
+    - direction: 0
+      length: 2
+  - id: 15
+    x: 4
+    y: 19
+    color: 9
+    segments:
+    - direction: 0
+      length: 2
+  - id: 16
+    x: 4
+    y: 16
+    color: 1
+    segments:
+    - direction: 0
+      length: 2
+  - id: 17
+    x: 4
+    y: 13
+    color: 3
+    segments:
+    - direction: 0
+      length: 2
+  - id: 18
+    x: 4
+    y: 10
+    color: 5
+    segments:
+    - direction: 0
+      length: 2
+  - id: 19
+    x: 4
+    y: 7
+    color: 7
+    segments:
+    - direction: 0
+      length: 2
+  - id: 20
+    x: 4
+    y: 4
+    color: 9
+    segments:
+    - direction: 0
+      length: 2
+  - id: 21
+    x: 4
+    y: 1
+    color: 1
+    segments:
+    - direction: 0
+      length: 2
+  - id: 22
+    x: 5
+    y: 2
+    color: 6
+    segments:
+    - direction: 1
+      length: 2
+  - id: 23
+    x: 5
+    y: 5
+    color: 8
+    segments:
+    - direction: 1
+      length: 2
+  - id: 24
+    x: 5
+    y: 8
+    color: 0
+    segments:
+    - direction: 1
+      length: 2
+  - id: 25
+    x: 5
+    y: 11
+    color: 2
+    segments:
+    - direction: 1
+      length: 2
+  - id: 26
+    x: 5
+    y: 14
+    color: 4
+    segments:
+    - direction: 1
+      length: 2
+  - id: 27
+    x: 5
+    y: 17
+    color: 6
+    segments:
+    - direction: 1
+      length: 2
+  - id: 28
+    x: 5
+    y: 20
+    color: 8
+    segments:
+    - direction: 1
+      length: 2
+  - id: 29
+    x: 6
+    y: 19
+    color: 3
+    segments:
+    - direction: 0
+      length: 2
+  - id: 30
+    x: 6
+    y: 16
+    color: 5
+    segments:
+    - direction: 0
+      length: 2
+  - id: 31
+    x: 6
+    y: 13
+    color: 7
+    segments:
+    - direction: 0
+      length: 2
+  - id: 32
+    x: 6
+    y: 10
+    color: 9
+    segments:
+    - direction: 0
+      length: 2
+  - id: 33
+    x: 6
+    y: 7
+    color: 1
+    segments:
+    - direction: 0
+      length: 2
+  - id: 34
+    x: 6
+    y: 4
+    color: 3
+    segments:
+    - direction: 0
+      length: 2
+  - id: 35
+    x: 6
+    y: 1
+    color: 5
+    segments:
+    - direction: 0
+      length: 2
+  - id: 36
+    x: 8
+    y: 19
+    color: 0
+    segments:
+    - direction: 0
+      length: 2
+  - id: 37
+    x: 8
+    y: 16
+    color: 2
+    segments:
+    - direction: 0
+      length: 2
+  - id: 38
+    x: 8
+    y: 13
+    color: 4
+    segments:
+    - direction: 0
+      length: 2
+  - id: 39
+    x: 8
+    y: 10
+    color: 6
+    segments:
+    - direction: 0
+      length: 2
+  - id: 40
+    x: 8
+    y: 7
+    color: 8
+    segments:
+    - direction: 0
+      length: 2
+  - id: 41
+    x: 8
+    y: 4
+    color: 0
+    segments:
+    - direction: 0
+      length: 2
+  - id: 42
+    x: 8
+    y: 1
+    color: 2
+    segments:
+    - direction: 0
+      length: 2
+  - id: 43
+    x: 9
+    y: 2
+    color: 7
+    segments:
+    - direction: 1
+      length: 2
+  - id: 44
+    x: 9
+    y: 5
+    color: 9
+    segments:
+    - direction: 1
+      length: 2
+  - id: 45
+    x: 9
+    y: 8
+    color: 1
+    segments:
+    - direction: 1
+      length: 2
+  - id: 46
+    x: 9
+    y: 11
+    color: 3
+    segments:
+    - direction: 1
+      length: 2
+  - id: 47
+    x: 9
+    y: 14
+    color: 5
+    segments:
+    - direction: 1
+      length: 2
+  - id: 48
+    x: 9
+    y: 17
+    color: 7
+    segments:
+    - direction: 1
+      length: 2
+  - id: 49
+    x: 9
+    y: 20
+    color: 9
+    segments:
+    - direction: 1
+      length: 2
+  - id: 50
+    x: 10
+    y: 19
+    color: 4
+    segments:
+    - direction: 0
+      length: 2
+  - id: 51
+    x: 10
+    y: 16
+    color: 6
+    segments:
+    - direction: 0
+      length: 2
+  - id: 52
+    x: 10
+    y: 13
+    color: 8
+    segments:
+    - direction: 0
+      length: 2
+  - id: 53
+    x: 10
+    y: 10
+    color: 0
+    segments:
+    - direction: 0
+      length: 2
+  - id: 54
+    x: 10
+    y: 7
+    color: 2
+    segments:
+    - direction: 0
+      length: 2
+  - id: 55
+    x: 10
+    y: 4
+    color: 4
+    segments:
+    - direction: 0
+      length: 2
+  - id: 56
+    x: 10
+    y: 1
+    color: 6
+    segments:
+    - direction: 0
+      length: 2
+  - id: 57
+    x: 12
+    y: 19
+    color: 1
+    segments:
+    - direction: 0
+      length: 2
+  - id: 58
+    x: 12
+    y: 16
+    color: 3
+    segments:
+    - direction: 0
+      length: 2
+  - id: 59
+    x: 12
+    y: 13
+    color: 5
+    segments:
+    - direction: 0
+      length: 2
+  - id: 60
+    x: 12
+    y: 10
+    color: 7
+    segments:
+    - direction: 0
+      length: 2
+  - id: 61
+    x: 12
+    y: 7
+    color: 9
+    segments:
+    - direction: 0
+      length: 2
+  - id: 62
+    x: 12
+    y: 4
+    color: 1
+    segments:
+    - direction: 0
+      length: 2
+  - id: 63
+    x: 12
+    y: 1
+    color: 3
+    segments:
+    - direction: 0
+      length: 2
+  - id: 64
+    x: 13
+    y: 2
+    color: 8
+    segments:
+    - direction: 1
+      length: 2
+  - id: 65
+    x: 13
+    y: 5
+    color: 0
+    segments:
+    - direction: 1
+      length: 2
+  - id: 66
+    x: 13
+    y: 8
+    color: 2
+    segments:
+    - direction: 1
+      length: 2
+  - id: 67
+    x: 13
+    y: 11
+    color: 4
+    segments:
+    - direction: 1
+      length: 2
+  - id: 68
+    x: 13
+    y: 14
+    color: 6
+    segments:
+    - direction: 1
+      length: 2
+  - id: 69
+    x: 13
+    y: 17
+    color: 8
+    segments:
+    - direction: 1
+      length: 2
+  - id: 70
+    x: 13
+    y: 20
+    color: 0
+    segments:
+    - direction: 1
+      length: 2
+  - id: 71
+    x: 15
+    y: 2
+    color: 5
+    segments:
+    - direction: 1
+      length: 2
+  - id: 72
+    x: 15
+    y: 5
+    color: 7
+    segments:
+    - direction: 1
+      length: 2
+  - id: 73
+    x: 15
+    y: 8
+    color: 9
+    segments:
+    - direction: 1
+      length: 2
+  - id: 74
+    x: 15
+    y: 11
+    color: 1
+    segments:
+    - direction: 1
+      length: 2
+  - id: 75
+    x: 15
+    y: 14
+    color: 3
+    segments:
+    - direction: 1
+      length: 2
+  - id: 76
+    x: 15
+    y: 17
+    color: 5
+    segments:
+    - direction: 1
+      length: 2
+  - id: 77
+    x: 15
+    y: 20
+    color: 7
+    segments:
+    - direction: 1
+      length: 2
+  - id: 78
+    x: 16
+    y: 19
+    color: 2
+    segments:
+    - direction: 0
+      length: 2
+  - id: 79
+    x: 16
+    y: 16
+    color: 4
+    segments:
+    - direction: 0
+      length: 2
+  - id: 80
+    x: 16
+    y: 13
+    color: 6
+    segments:
+    - direction: 0
+      length: 2
+  - id: 81
+    x: 16
+    y: 10
+    color: 8
+    segments:
+    - direction: 0
+      length: 2
+  - id: 82
+    x: 16
+    y: 7
+    color: 0
+    segments:
+    - direction: 0
+      length: 2
+  - id: 83
+    x: 16
+    y: 4
+    color: 2
+    segments:
+    - direction: 0
+      length: 2
+  - id: 84
+    x: 16
+    y: 1
+    color: 4
+    segments:
+    - direction: 0
+      length: 2
+  - id: 85
+    x: 17
+    y: 2
+    color: 9
+    segments:
+    - direction: 1
+      length: 2
+  - id: 86
+    x: 17
+    y: 5
+    color: 1
+    segments:
+    - direction: 1
+      length: 2
+  - id: 87
+    x: 17
+    y: 8
+    color: 3
+    segments:
+    - direction: 1
+      length: 2
+  - id: 88
+    x: 17
+    y: 11
+    color: 5
+    segments:
+    - direction: 1
+      length: 2
+  - id: 89
+    x: 17
+    y: 14
+    color: 7
+    segments:
+    - direction: 1
+      length: 2
+  - id: 90
+    x: 17
+    y: 17
+    color: 9
+    segments:
+    - direction: 1
+      length: 2
+  - id: 91
+    x: 17
+    y: 20
+    color: 1
+    segments:
+    - direction: 1
+      length: 2
+  - id: 92
+    x: 19
+    y: 2
+    color: 6
+    segments:
+    - direction: 1
+      length: 2
+  - id: 93
+    x: 19
+    y: 5
+    color: 8
+    segments:
+    - direction: 1
+      length: 2
+  - id: 94
+    x: 19
+    y: 8
+    color: 0
+    segments:
+    - direction: 1
+      length: 2
+  - id: 95
+    x: 19
+    y: 11
+    color: 2
+    segments:
+    - direction: 1
+      length: 2
+  - id: 96
+    x: 19
+    y: 14
+    color: 4
+    segments:
+    - direction: 1
+      length: 2
+  - id: 97
+    x: 19
+    y: 17
+    color: 6
+    segments:
+    - direction: 1
+      length: 2
+  - id: 98
+    x: 19
+    y: 20
+    color: 8
+    segments:
+    - direction: 1
+      length: 2
+  - id: 99
+    x: 20
+    y: 19
+    color: 3
+    segments:
+    - direction: 0
+      length: 2
+  - id: 100
+    x: 20
+    y: 16
+    color: 5
+    segments:
+    - direction: 0
+      length: 2
+  - id: 101
+    x: 20
+    y: 13
+    color: 7
+    segments:
+    - direction: 0
+      length: 2
+  - id: 102
+    x: 20
+    y: 10
+    color: 9
+    segments:
+    - direction: 0
+      length: 2
+  - id: 103
+    x: 20
+    y: 7
+    color: 1
+    segments:
+    - direction: 0
+      length: 2
+  - id: 104
+    x: 20
+    y: 4
+    color: 3
+    segments:
+    - direction: 0
+      length: 2
+  - id: 105
+    x: 20
+    y: 1
+    color: 5
+    segments:
+    - direction: 0
+      length: 2
+  solutionOrder: 0100000002000000030000000400000005000000060000000700000008000000090000000a0000000b0000000c0000000d0000000e0000000f000000100000001100000012000000130000001400000015000000160000001700000018000000190000001a0000001b0000001c0000001d0000001e0000001f000000200000002100000022000000230000002400000025000000260000002700000028000000290000002a0000002b0000002c0000002d0000002e0000002f000000300000003100000032000000330000003400000035000000360000003700000038000000390000003a0000003b0000003c0000003d0000003e0000003f000000400000004100000042000000430000004400000045000000460000004700000048000000490000004a0000004b0000004c0000004d0000004e0000004f000000500000005100000052000000530000005400000055000000560000005700000058000000590000005a0000005b0000005c0000005d0000005e0000005f00000060000000610000006200000063000000640000006500000066000000670000006800000069000000
+

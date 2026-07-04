@@ -11,6 +11,8 @@ namespace Game.Editor
         private const string DevProfilePath = "Assets/ArrowPopBall/Settings/BuildProfiles/Dev.asset";
         private const string LiveProfilePath = "Assets/ArrowPopBall/Settings/BuildProfiles/Live.asset";
         private const string AdsSdkSettingsPath = "Assets/ArrowPopBall/Resources/Ads/AdsSdkSettings.asset";
+        private const string DevAdsProfilePath = "Assets/ArrowPopBall/Settings/AdsSdkProfiles/Dev.asset";
+        private const string LiveAdsProfilePath = "Assets/ArrowPopBall/Settings/AdsSdkProfiles/Live.asset";
 
         [MenuItem("Tools/Arrow Pop/Build Profiles/Apply Dev")]
         private static void ApplyDevProfile()
@@ -40,6 +42,18 @@ namespace Game.Editor
         private static void SelectAdsSdkSettings()
         {
             PingAsset<AdsSdkSettingsSO>(AdsSdkSettingsPath);
+        }
+
+        [MenuItem("Tools/Arrow Pop/Ads/Select Dev Ads Profile")]
+        private static void SelectDevAdsProfile()
+        {
+            PingAsset<AdsSdkSettingsSO>(DevAdsProfilePath);
+        }
+
+        [MenuItem("Tools/Arrow Pop/Ads/Select Live Ads Profile")]
+        private static void SelectLiveAdsProfile()
+        {
+            PingAsset<AdsSdkSettingsSO>(LiveAdsProfilePath);
         }
 
         [MenuItem("Tools/Arrow Pop/Validate/Profiles And Ads")]
@@ -86,6 +100,22 @@ namespace Game.Editor
                 changes.Add($"appleTeamId='{profile.AppleDeveloperTeamID}'");
             }
 
+            if (profile.AdsSdkSettingsProfile != null)
+            {
+                var runtimeAdsSettings = AssetDatabase.LoadAssetAtPath<AdsSdkSettingsSO>(AdsSdkSettingsPath);
+                if (runtimeAdsSettings == null)
+                {
+                    Debug.LogError($"[BuildProfileMenu] Runtime ads settings not found: {AdsSdkSettingsPath}");
+                }
+                else
+                {
+                    Undo.RecordObject(runtimeAdsSettings, "Apply Ads SDK Settings Profile");
+                    EditorUtility.CopySerialized(profile.AdsSdkSettingsProfile, runtimeAdsSettings);
+                    EditorUtility.SetDirty(runtimeAdsSettings);
+                    changes.Add($"adsSdkProfile='{profile.AdsSdkSettingsProfile.name}'");
+                }
+            }
+
             AssetDatabase.SaveAssets();
 
             if (changes.Count == 0)
@@ -115,6 +145,14 @@ namespace Game.Editor
                 issues.Add("iosApplicationIdentifier");
             if (string.IsNullOrWhiteSpace(profile.AppleDeveloperTeamID))
                 issues.Add("appleDeveloperTeamID");
+            if (profile.AdsSdkSettingsProfile == null)
+            {
+                issues.Add("adsSdkSettingsProfile");
+            }
+            else
+            {
+                ValidateAdsSdkSettings(profile.AdsSdkSettingsProfile, $"profile '{profile.name}'");
+            }
 
             if (issues.Count == 0)
             {
@@ -134,6 +172,17 @@ namespace Game.Editor
                 return;
             }
 
+            ValidateAdsSdkSettings(settings, "runtime");
+        }
+
+        private static void ValidateAdsSdkSettings(AdsSdkSettingsSO settings, string label)
+        {
+            if (settings == null)
+            {
+                Debug.LogError($"[BuildProfileMenu] Missing ads SDK settings for {label}");
+                return;
+            }
+
             var issues = new List<string>();
             if (!settings.HasSdkKey)
                 issues.Add("appLovinSdkKey");
@@ -146,11 +195,11 @@ namespace Game.Editor
 
             if (issues.Count == 0)
             {
-                Debug.Log($"[BuildProfileMenu] Ads SDK settings '{settings.name}' look complete.");
+                Debug.Log($"[BuildProfileMenu] Ads SDK settings '{settings.name}' for {label} look complete.");
                 return;
             }
 
-            Debug.LogWarning($"[BuildProfileMenu] Ads SDK settings '{settings.name}' are missing: {string.Join(", ", issues)}");
+            Debug.LogWarning($"[BuildProfileMenu] Ads SDK settings '{settings.name}' for {label} are missing: {string.Join(", ", issues)}");
         }
 
         private static void PingAsset<T>(string assetPath) where T : Object

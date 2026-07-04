@@ -17,5 +17,6 @@ MonoBehaviour:
   _androidApplicationIdentifier: 
   _iosApplicationIdentifier: 
   _appleDeveloperTeamID: 
+  _adsSdkSettingsProfile: {fileID: 11400000, guid: b3cb1e7052d4434b8f3d59e55fea127f, type: 2}
   _routingUrl: 
   _memo: Fill identifiers and Team ID before applying this profile.

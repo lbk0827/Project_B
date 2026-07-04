@@ -1,3 +1,4 @@
+using Game.Ads;
 using UnityEngine;
 
 namespace Game.Settings
@@ -20,6 +21,9 @@ namespace Game.Settings
         [SerializeField] private string _iosApplicationIdentifier;
         [SerializeField] private string _appleDeveloperTeamID;
 
+        [Header("Ads")]
+        [SerializeField] private AdsSdkSettingsSO _adsSdkSettingsProfile;
+
         [Header("Notes")]
         [SerializeField] private string _routingUrl;
         [SerializeField] private string _memo;
@@ -29,6 +33,7 @@ namespace Game.Settings
         public string AndroidApplicationIdentifier => _androidApplicationIdentifier;
         public string IosApplicationIdentifier => _iosApplicationIdentifier;
         public string AppleDeveloperTeamID => _appleDeveloperTeamID;
+        public AdsSdkSettingsSO AdsSdkSettingsProfile => _adsSdkSettingsProfile;
         public string RoutingUrl => _routingUrl;
         public string Memo => _memo;
     }

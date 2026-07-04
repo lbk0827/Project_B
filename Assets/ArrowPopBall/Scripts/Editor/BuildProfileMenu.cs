@@ -222,7 +222,7 @@ namespace Game.Editor
 
         private static void ValidateAppLovinSettingsAssetExists()
         {
-            if (AssetDatabase.LoadMainAssetAtPath(AppLovinSettingsPath) == null)
+            if (EnsureAppLovinSettingsAsset() == null)
             {
                 Debug.LogWarning($"[BuildProfileMenu] AppLovin settings asset not found: {AppLovinSettingsPath}. MAX package is probably not installed yet.");
             }
@@ -230,7 +230,7 @@ namespace Game.Editor
 
         private static bool SyncToAppLovinAsset(AdsSdkSettingsSO settings)
         {
-            var appLovinSettingsAsset = AssetDatabase.LoadMainAssetAtPath(AppLovinSettingsPath);
+            var appLovinSettingsAsset = EnsureAppLovinSettingsAsset();
             if (appLovinSettingsAsset == null)
             {
                 Debug.LogWarning($"[BuildProfileMenu] AppLovin settings asset not found: {AppLovinSettingsPath}");
@@ -246,6 +246,20 @@ namespace Game.Editor
             AssetDatabase.SaveAssets();
             Debug.Log($"[BuildProfileMenu] Synced AppLovin settings asset from '{settings.name}'.");
             return true;
+        }
+
+        private static Object EnsureAppLovinSettingsAsset()
+        {
+            var asset = AssetDatabase.LoadMainAssetAtPath(AppLovinSettingsPath);
+            if (asset != null)
+                return asset;
+
+            var settingsType = FindEditorType("AppLovinSettings");
+            var instanceProperty = settingsType?.GetProperty("Instance");
+            _ = instanceProperty?.GetValue(null, null);
+
+            AssetDatabase.Refresh();
+            return AssetDatabase.LoadMainAssetAtPath(AppLovinSettingsPath);
         }
 
         private static void SetStringIfPropertyExists(SerializedObject serializedObject, string propertyName, string value)
@@ -268,6 +282,27 @@ namespace Game.Editor
 
             Selection.activeObject = asset;
             EditorGUIUtility.PingObject(asset);
+        }
+
+        private static System.Type FindEditorType(string typeName)
+        {
+            foreach (var assembly in System.AppDomain.CurrentDomain.GetAssemblies())
+            {
+                System.Type type = null;
+                try
+                {
+                    type = assembly.GetType(typeName) ?? System.Array.Find(assembly.GetTypes(), candidate => candidate.Name == typeName);
+                }
+                catch (System.Reflection.ReflectionTypeLoadException)
+                {
+                    // Ignore broken editor assemblies and keep scanning.
+                }
+
+                if (type != null)
+                    return type;
+            }
+
+            return null;
         }
     }
 }

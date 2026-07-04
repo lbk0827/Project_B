@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using DG.Tweening;
+using Game.Ads;
 using Game.Core;
 
 namespace Game.UI
@@ -68,6 +69,7 @@ namespace Game.UI
         private void Start()
         {
             Debug.Log("[LobbyUI] Lobby Scene started");
+            AdManager.Instance?.ShowLobbyBanner();
 
             // 현재 레벨 로드
             LoadCurrentLevel();
@@ -339,6 +341,7 @@ namespace Game.UI
         private void OnPlayButtonClicked()
         {
             Debug.Log($"[LobbyUI] Play button clicked - Loading level {_currentLevel}");
+            AdManager.Instance?.HideBanner();
 
             // 버튼 펀치 애니메이션
             if (_playButton != null)
@@ -444,6 +447,11 @@ namespace Game.UI
         public static int GetCurrentLevel()
         {
             return PlayerPrefs.GetInt("CurrentLevel", 1);
+        }
+
+        private void OnDestroy()
+        {
+            AdManager.Instance?.HideBanner();
         }
     }
 }

@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using DG.Tweening;
+using Game.Ads;
 using Game.Core;
 using Game.Data;
 using Game.Effects;
@@ -43,6 +44,7 @@ namespace Game.UI
             SetupButtons();
             SubscribeEvents();
             HideResultPanel();
+            AdManager.Instance?.ShowIngameBanner();
 
             // TopBarUI 즉시 초기화 시도 (GameManager가 이미 레벨을 로드한 경우)
             InitializeTopBarUI();
@@ -180,14 +182,14 @@ namespace Game.UI
 
                 // 다음 레벨로 진행
                 LobbyUI.AdvanceToNextLevel();
+                AdManager.Instance?.RecordLevelClear();
 
                 // LevelClearManager가 있으면 연출 실행
                 if (LevelClearManager.Instance != null)
                 {
                     LevelClearManager.Instance.StartClearSequence(() =>
                     {
-                        Debug.Log("[GameUIView] Clear sequence complete, returning to lobby...");
-                        SceneLoader.LoadLobby();
+                        HandleLevelClearTransition();
                     });
                 }
                 else
@@ -196,7 +198,7 @@ namespace Game.UI
                     Debug.LogWarning("[GameUIView] LevelClearManager not found, using fallback delay");
                     DOVirtual.DelayedCall(0.8f, () =>
                     {
-                        SceneLoader.LoadLobby();
+                        HandleLevelClearTransition();
                     });
                 }
                 return;
@@ -257,6 +259,14 @@ namespace Game.UI
         }
 
         // ========== 공개 인터페이스 ==========
+        private void HandleLevelClearTransition()
+        {
+            Debug.Log("[GameUIView] Clear sequence complete, checking interstitial before lobby...");
+
+            int currentLevel = LobbyUI.GetCurrentLevel();
+            AdManager.Instance?.TryShowInterstitial(AdTrigger.LevelClear, currentLevel, SceneLoader.LoadLobby);
+        }
+
         public void SetLevelText(int levelId)
         {
             if (_levelText != null)

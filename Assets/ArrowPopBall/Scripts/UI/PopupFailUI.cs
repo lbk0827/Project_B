@@ -1,50 +1,45 @@
 using System;
-using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 using DG.Tweening;
+using Game.Ads;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 namespace Game.UI
 {
     /// <summary>
-    /// 실패 팝업 UI 컨트롤러
-    /// Life가 0이 되었을 때 표시
+    /// Fail popup UI controller shown when lives reach zero.
     /// </summary>
     public class PopupFailUI : MonoBehaviour
     {
-        // ========== 싱글톤 ==========
         private static PopupFailUI _instance;
         public static PopupFailUI Instance => _instance;
 
-        // ========== 인스펙터 노출 변수 ==========
-        [Header("필수 참조")]
+        [Header("Required References")]
         [SerializeField] private CanvasGroup _canvasGroup;
         [SerializeField] private RectTransform _panel;
         [SerializeField] private Image _background;
 
-        [Header("버튼")]
+        [Header("Buttons")]
         [SerializeField] private Button _btnClose;
         [SerializeField] private Button _btnRestart;
         [SerializeField] private Button _btnPlayOn;
 
-        [Header("씬 설정")]
+        [Header("Scene Settings")]
         [SerializeField] private string _lobbySceneName = "LobbyScene";
 
-        [Header("애니메이션 설정")]
+        [Header("Animation Settings")]
         [SerializeField] private float _showDuration = 0.3f;
         [SerializeField] private float _hideDuration = 0.2f;
         [SerializeField] private float _backgroundAlpha = 0.7f;
 
-        // ========== 내부 상태 변수 ==========
         private bool _isShowing;
         private bool _isAnimating;
         private Sequence _currentSequence;
 
-        // ========== 프로퍼티 ==========
         public bool IsShowing => _isShowing;
         public bool IsAnimating => _isAnimating;
 
-        // ========== 유니티 라이프사이클 ==========
         private void Awake()
         {
             if (_instance != null && _instance != this)
@@ -52,43 +47,28 @@ namespace Game.UI
                 Destroy(gameObject);
                 return;
             }
-            _instance = this;
 
-            // 초기 상태: 숨김
+            _instance = this;
             HideImmediate();
 
-            // 버튼 이벤트 연결
             if (_btnClose != null)
-            {
                 _btnClose.onClick.AddListener(OnCloseClicked);
-            }
 
             if (_btnRestart != null)
-            {
                 _btnRestart.onClick.AddListener(OnRestartClicked);
-            }
 
             if (_btnPlayOn != null)
-            {
                 _btnPlayOn.onClick.AddListener(OnPlayOnClicked);
-            }
         }
 
         private void OnDestroy()
         {
             if (_instance == this)
-            {
                 _instance = null;
-            }
 
             _currentSequence?.Kill();
         }
 
-        // ========== 공개 인터페이스 ==========
-
-        /// <summary>
-        /// 팝업 표시
-        /// </summary>
         public void Show(Action onComplete = null)
         {
             if (_isShowing || _isAnimating)
@@ -102,15 +82,12 @@ namespace Game.UI
             _currentSequence?.Kill();
             _currentSequence = DOTween.Sequence();
 
-            // 초기 상태
             _canvasGroup.alpha = 0f;
             _panel.localScale = Vector3.zero;
-            if (_background != null)
-            {
-                _background.color = new Color(_background.color.r, _background.color.g, _background.color.b, 0f);
-            }
 
-            // 애니메이션
+            if (_background != null)
+                _background.color = new Color(_background.color.r, _background.color.g, _background.color.b, 0f);
+
             _currentSequence
                 .Append(_background.DOFade(_backgroundAlpha, _showDuration * 0.6f))
                 .Join(_panel.DOScale(1f, _showDuration).SetEase(Ease.OutBack))
@@ -124,9 +101,6 @@ namespace Game.UI
             Debug.Log("[PopupFailUI] Show");
         }
 
-        /// <summary>
-        /// 팝업 숨김 (애니메이션)
-        /// </summary>
         public void Hide(Action onComplete = null)
         {
             if (!_isShowing || _isAnimating)
@@ -152,9 +126,6 @@ namespace Game.UI
             Debug.Log("[PopupFailUI] Hide");
         }
 
-        /// <summary>
-        /// 즉시 숨김 (애니메이션 없음)
-        /// </summary>
         public void HideImmediate()
         {
             _currentSequence?.Kill();
@@ -166,14 +137,10 @@ namespace Game.UI
             _panel.localScale = Vector3.zero;
 
             if (_background != null)
-            {
                 _background.color = new Color(_background.color.r, _background.color.g, _background.color.b, 0f);
-            }
 
             gameObject.SetActive(false);
         }
-
-        // ========== 버튼 이벤트 ==========
 
         private void OnCloseClicked()
         {
@@ -184,7 +151,6 @@ namespace Game.UI
 
             Hide(() =>
             {
-                // 로비 씬으로 이동
                 SceneManager.LoadScene(_lobbySceneName);
             });
         }
@@ -198,11 +164,8 @@ namespace Game.UI
 
             Hide(() =>
             {
-                // GameManager에 레벨 재시작 요청
                 if (Game.Core.GameManager.Instance != null)
-                {
                     Game.Core.GameManager.Instance.RestartLevel();
-                }
             });
         }
 
@@ -213,15 +176,25 @@ namespace Game.UI
 
             Debug.Log("[PopupFailUI] PlayOn clicked");
 
-            // MVP: 광고 없이 바로 처리
-            // TODO: AdManager 연동 시 보상형 광고 재생 추가
-            Hide(() =>
+            if (AdManager.Instance == null)
             {
-                // GameManager에 Life 풀 회복 후 계속 요청
-                if (Game.Core.GameManager.Instance != null)
+                Debug.LogWarning("[PopupFailUI] AdManager not found");
+                return;
+            }
+
+            AdManager.Instance.ShowRewarded(AdTrigger.FailContinue, rewarded =>
+            {
+                if (!rewarded)
                 {
-                    Game.Core.GameManager.Instance.ContinueWithFullLife();
+                    Debug.Log("[PopupFailUI] Rewarded ad was not completed");
+                    return;
                 }
+
+                Hide(() =>
+                {
+                    if (Game.Core.GameManager.Instance != null)
+                        Game.Core.GameManager.Instance.ContinueWithFullLife();
+                });
             });
         }
     }

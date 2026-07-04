@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d8db6afbf82491ba03d505ab4b83238, type: 3}
+  m_Name: AdSettings
+  m_EditorClassIdentifier: Assembly-CSharp::Game.Ads.AdSettingsSO
+  _showLobbyBanner: 1
+  _showIngameBanner: 1
+  _interstitialStartLevel: 1
+  _interstitialEveryClears: 1
+  _interstitialCooldownSeconds: 90
+  _simulateInterstitialInEditor: 1
+  _simulateRewardedSuccessInEditor: 1
+  _simulatedAdDuration: 0.5

@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using Game.UI;
 using Game.Utilities;
 using UnityEngine;
 
@@ -18,50 +17,34 @@ namespace Game.Ads
         FailContinue
     }
 
-    [Serializable]
-    public class AdPolicy
-    {
-        [SerializeField] private bool _showLobbyBanner = true;
-        [SerializeField] private bool _showIngameBanner = true;
-        [SerializeField] private int _interstitialStartLevel = 3;
-        [SerializeField] private int _interstitialEveryClears = 2;
-        [SerializeField] private float _interstitialCooldownSeconds = 90f;
-
-        public bool ShowLobbyBanner => _showLobbyBanner;
-        public bool ShowIngameBanner => _showIngameBanner;
-        public int InterstitialStartLevel => _interstitialStartLevel;
-        public int InterstitialEveryClears => Mathf.Max(1, _interstitialEveryClears);
-        public float InterstitialCooldownSeconds => Mathf.Max(0f, _interstitialCooldownSeconds);
-    }
-
     public class AdManager : SingletonMono<AdManager>
     {
-        [Header("Policy")]
-        [SerializeField] private AdPolicy _policy = new AdPolicy();
-
-        [Header("Editor Simulation")]
-        [SerializeField] private bool _simulateInterstitialInEditor = true;
-        [SerializeField] private bool _simulateRewardedSuccessInEditor = true;
-        [SerializeField] private float _simulatedAdDuration = 0.5f;
+        private const string SettingsResourcePath = "Ads/AdSettings";
+        private const string SdkSettingsResourcePath = "Ads/AdsSdkSettings";
 
         private int _clearCountSinceInterstitial;
         private float _lastInterstitialTime = float.MinValue;
         private bool _bannerVisible;
         private AdBannerPlacement _currentBannerPlacement;
+        private AdSettingsSO _settings;
+        private AdsSdkSettingsSO _sdkSettings;
 
-        public AdPolicy Policy => _policy;
+        public AdSettingsSO Settings => _settings;
+        public AdsSdkSettingsSO SdkSettings => _sdkSettings;
         public bool IsBannerVisible => _bannerVisible;
 
         protected override void OnAwake()
         {
+            LoadSettings();
+            LoadSdkSettings();
             _clearCountSinceInterstitial = 0;
             _lastInterstitialTime = float.MinValue;
-            Debug.Log("[AdManager] Thin ad manager initialized");
+            Debug.Log($"[AdManager] Thin ad manager initialized settings='{_settings.name}' sdkSettings='{_sdkSettings.name}'");
         }
 
         public void ShowLobbyBanner()
         {
-            if (!_policy.ShowLobbyBanner)
+            if (!_settings.ShowLobbyBanner)
                 return;
 
             ShowBanner(AdBannerPlacement.LobbyBottom);
@@ -69,7 +52,7 @@ namespace Game.Ads
 
         public void ShowIngameBanner()
         {
-            if (!_policy.ShowIngameBanner)
+            if (!_settings.ShowIngameBanner)
                 return;
 
             ShowBanner(AdBannerPlacement.IngameBottom);
@@ -79,7 +62,7 @@ namespace Game.Ads
         {
             _bannerVisible = true;
             _currentBannerPlacement = placement;
-            Debug.Log($"[AdManager] ShowBanner: {placement}");
+            Debug.Log($"[AdManager] ShowBanner: {placement}, unitId='{GetBannerUnitId()}'");
         }
 
         public void HideBanner()
@@ -99,14 +82,14 @@ namespace Game.Ads
 
         public bool CanShowInterstitial(int currentLevel)
         {
-            if (currentLevel < _policy.InterstitialStartLevel)
+            if (currentLevel < _settings.InterstitialStartLevel)
                 return false;
 
-            if (_clearCountSinceInterstitial < _policy.InterstitialEveryClears)
+            if (_clearCountSinceInterstitial < _settings.InterstitialEveryClears)
                 return false;
 
             float elapsed = Time.realtimeSinceStartup - _lastInterstitialTime;
-            if (elapsed < _policy.InterstitialCooldownSeconds)
+            if (elapsed < _settings.InterstitialCooldownSeconds)
                 return false;
 
             return true;
@@ -120,10 +103,10 @@ namespace Game.Ads
                 return;
             }
 
-            Debug.Log($"[AdManager] TryShowInterstitial: {trigger}, level={currentLevel}");
+            Debug.Log($"[AdManager] TryShowInterstitial: {trigger}, level={currentLevel}, unitId='{GetInterstitialUnitId()}'");
 
 #if UNITY_EDITOR
-            if (_simulateInterstitialInEditor)
+            if (_settings.SimulateInterstitialInEditor)
             {
                 StartCoroutine(SimulateInterstitialCoroutine(onComplete));
                 return;
@@ -138,7 +121,7 @@ namespace Game.Ads
 
         public void ShowRewarded(AdTrigger trigger, Action<bool> onComplete)
         {
-            Debug.Log($"[AdManager] ShowRewarded: {trigger}");
+            Debug.Log($"[AdManager] ShowRewarded: {trigger}, unitId='{GetRewardedUnitId()}'");
 
 #if UNITY_EDITOR
             StartCoroutine(SimulateRewardedCoroutine(onComplete));
@@ -151,7 +134,7 @@ namespace Game.Ads
 
         private IEnumerator SimulateInterstitialCoroutine(Action onComplete)
         {
-            yield return new WaitForSecondsRealtime(_simulatedAdDuration);
+            yield return new WaitForSecondsRealtime(_settings.SimulatedAdDuration);
             _lastInterstitialTime = Time.realtimeSinceStartup;
             _clearCountSinceInterstitial = 0;
             Debug.Log("[AdManager] Simulated interstitial closed");
@@ -160,9 +143,52 @@ namespace Game.Ads
 
         private IEnumerator SimulateRewardedCoroutine(Action<bool> onComplete)
         {
-            yield return new WaitForSecondsRealtime(_simulatedAdDuration);
-            Debug.Log($"[AdManager] Simulated rewarded completed: {_simulateRewardedSuccessInEditor}");
-            onComplete?.Invoke(_simulateRewardedSuccessInEditor);
+            yield return new WaitForSecondsRealtime(_settings.SimulatedAdDuration);
+            Debug.Log($"[AdManager] Simulated rewarded completed: {_settings.SimulateRewardedSuccessInEditor}");
+            onComplete?.Invoke(_settings.SimulateRewardedSuccessInEditor);
+        }
+
+        private void LoadSettings()
+        {
+            _settings = Resources.Load<AdSettingsSO>(SettingsResourcePath);
+            if (_settings != null)
+                return;
+
+            Debug.LogWarning($"[AdManager] Missing Resources/{SettingsResourcePath}.asset. Using runtime defaults.");
+            _settings = ScriptableObject.CreateInstance<AdSettingsSO>();
+        }
+
+        private void LoadSdkSettings()
+        {
+            _sdkSettings = Resources.Load<AdsSdkSettingsSO>(SdkSettingsResourcePath);
+            if (_sdkSettings != null)
+                return;
+
+            Debug.LogWarning($"[AdManager] Missing Resources/{SdkSettingsResourcePath}.asset. Using runtime defaults.");
+            _sdkSettings = ScriptableObject.CreateInstance<AdsSdkSettingsSO>();
+        }
+
+        public string GetBannerUnitId()
+        {
+            return GetUnitId(AdUnitSlot.Banner);
+        }
+
+        public string GetInterstitialUnitId()
+        {
+            return GetUnitId(AdUnitSlot.Interstitial);
+        }
+
+        public string GetRewardedUnitId()
+        {
+            return GetUnitId(AdUnitSlot.Rewarded);
+        }
+
+        private string GetUnitId(AdUnitSlot slot)
+        {
+            if (_sdkSettings == null)
+                return string.Empty;
+
+            return _sdkSettings.GetUnitId(slot, Application.platform);
         }
     }
 }

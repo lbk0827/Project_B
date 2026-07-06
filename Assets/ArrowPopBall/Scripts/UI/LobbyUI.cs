@@ -108,8 +108,10 @@ namespace Game.UI
             if (_homeTabButton != null)
                 _homeTabButton.onClick.AddListener(() => SwitchToTab(TabType.Home));
 
+            // 설정 버튼: 탭바 없이 단독 기어 버튼으로 쓰일 수 있으므로 토글 동작
             if (_settingsTabButton != null)
-                _settingsTabButton.onClick.AddListener(() => SwitchToTab(TabType.Settings));
+                _settingsTabButton.onClick.AddListener(() =>
+                    SwitchToTab(_currentTab == TabType.Settings ? TabType.Home : TabType.Settings));
 
             // 리셋 버튼
             if (_resetButton != null)
@@ -244,7 +246,7 @@ namespace Game.UI
         {
             if (_levelText != null)
             {
-                _levelText.text = $"Level {_currentLevel}";
+                _levelText.text = $"레벨 {_currentLevel}";
             }
         }
 
@@ -377,7 +379,7 @@ namespace Game.UI
             Debug.Log($"[LobbyUI] Playing level up animation: {fromLevel} → {toLevel}");
 
             // 초기 상태: 이전 레벨 표시
-            _levelText.text = $"Level {fromLevel}";
+            _levelText.text = $"레벨 {fromLevel}";
 
             // RectTransform 가져오기
             RectTransform rectTransform = _levelText.GetComponent<RectTransform>();
@@ -401,7 +403,7 @@ namespace Game.UI
             // 2. 새 숫자로 변경하고 아래에서 시작
             seq.AppendCallback(() =>
             {
-                _levelText.text = $"Level {toLevel}";
+                _levelText.text = $"레벨 {toLevel}";
                 rectTransform.anchoredPosition = new Vector2(originalPos.x, originalPos.y - _levelUpSlideDistance);
             });
 

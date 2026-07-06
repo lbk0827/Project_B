@@ -15,4 +15,6 @@ EditorBuildSettings:
     path: Assets/ArrowPopBall/Scenes/GameScene.unity
     guid: 8c9cfa26abfee488c85f1582747f6a02
   m_configObjects:
+    com.unity.addressableassets: {fileID: 11400000, guid: fecae1c6bd7acb047b0f13f3b734e238, type: 2}
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+    com.unity.localization.settings: {fileID: 11400000, guid: f435bc197bc0add49826d1b772824668, type: 2}
